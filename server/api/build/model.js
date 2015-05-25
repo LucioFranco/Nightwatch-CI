@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 
 var BuildSchema = mongoose.Schema({
-  pass: Boolean,
-  inProgress: Boolean,
+  pass: { type: Boolean, default: false },
+  inProgress: { type: Boolean, default: true },
   buildNumber: Number,
   timestamp: { type: Date, default: Date.now },
-  output: String
+  output: { type: String, default: 'Test in Progress' }
 });
 
 module.exports = mongoose.model('Builds', BuildSchema);

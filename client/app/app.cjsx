@@ -4,7 +4,6 @@ Router = require('react-router')
 require './app.less'
 
 RouteHandler = Router.RouteHandler
-Routes =
 
 Header = require('./components/header/header.cjsx')
 
@@ -18,6 +17,6 @@ App = React.createClass
         </div>
       </div>
 
-Router.run(require('./routes.cjsx')(App), (Handler) ->
+Router.run(require('./routes.cjsx')(App), Router.HistoryLocation,(Handler) ->
   React.render(<Handler />, app)
 )

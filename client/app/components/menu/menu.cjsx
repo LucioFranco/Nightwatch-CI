@@ -8,10 +8,10 @@ Router = require 'react-router'
 Menu = React.createClass
   mixins: [Router.Navigation]
   render: ->
-    console.log @
     <Navbar brand="Nightwatch Runner" inverse fixedTop toggleNavKey={0}>
       <Nav>
         <NavItem onClick={=> @transitionTo '/'}><Glyph glyph="th-large"/>  Dashboard</NavItem>
+        <NavItem onClick={=> @transitionTo '/builds'}><Glyph glyph="warning-sign"/>  Builds</NavItem>
         <NavItem onClick={=> @transitionTo '/tests'}><Glyph glyph="asterisk"/>  Tests</NavItem>
       </Nav>
     </Navbar>

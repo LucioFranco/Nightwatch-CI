@@ -2,6 +2,9 @@ Reflux = require 'reflux'
 request = require 'superagent'
 
 BuildActions = require '../actions/BuildActions.coffee'
+Util = require '../util.coffee'
+#io = require 'socket.io/lib'
+
 
 BuildStore = Reflux.createStore
   listenables: [BuildActions]
@@ -11,17 +14,17 @@ BuildStore = Reflux.createStore
 
   onGetList: ->
     request
-      .get 'http://localhost:3000/api/build'
+      .get Util.baseUrl + '/api/build'
       .set 'Content-Type', 'application/json'
       .end (err, res) =>
         @buildList = res.body
         @trigger @buildList
 
   onNewBuild: ->
-    @buildList.push({ pass: true, inProgress: true, number: @buildList.length + 1 });
+    @buildList.push({ pass: false, inProgress: true, buildNumber: @buildList.length + 1 });
     @trigger @buildList
     request
-      .get 'http://localhost:3000/api/build/start'
+      .post Util.baseUrl + '/api/build/start'
       .end (err, res) =>
         @onGetList()
 

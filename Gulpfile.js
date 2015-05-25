@@ -45,7 +45,7 @@ var paths = {
 // build our modules
 gulp.task('webpack', function(){
 	return gulp.src(paths.entry)
-		.pipe(webpack(require('./webpack.config')))
+		.pipe(webpack(require('./webpack.config')(true)))
 		.pipe(gulp.dest(paths.output));
 });
 

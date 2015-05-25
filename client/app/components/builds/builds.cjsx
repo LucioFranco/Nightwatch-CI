@@ -1,20 +1,22 @@
 React = require 'react'
 Reflux = require 'reflux'
-BuildStore = require '../../stores/BuildStore.coffee'
 
+BuildStore = require '../../stores/BuildStore.coffee'
 BuildPanel = require '../common/build.cjsx'
 
-Build = React.createClass
+Builds = React.createClass
   mixins: [Reflux.connect(BuildStore, 'buildList')]
+
   renderBuilds: ->
     builds = []
-    _.eachRight _.drop(@state?.buildList, @state?.buildList.length - 5), (e) ->
+    _.eachRight @state?.buildList, (e) ->
       builds.push <BuildPanel build={e} />
     builds
 
   render: ->
-    <div>
+    <div className="container">
+      <h1 className="text-center">Builds</h1>
       {@renderBuilds()}
     </div>
 
-module.exports = Build
+module.exports = Builds
