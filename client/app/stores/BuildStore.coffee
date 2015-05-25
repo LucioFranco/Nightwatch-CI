@@ -3,7 +3,6 @@ request = require 'superagent'
 
 BuildActions = require '../actions/BuildActions.coffee'
 Util = require '../util.coffee'
-#io = require 'socket.io/lib'
 
 
 BuildStore = Reflux.createStore
@@ -21,7 +20,7 @@ BuildStore = Reflux.createStore
         @trigger @buildList
 
   onNewBuild: ->
-    @buildList.push({ pass: false, inProgress: true, buildNumber: @buildList.length + 1 });
+    @buildList.push({ pass: false, inProgress: true, buildNumber: @buildList.length + 2 });
     @trigger @buildList
     request
       .post Util.baseUrl + '/api/build/start'

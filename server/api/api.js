@@ -24,6 +24,7 @@ router
         }
       })
       .then(function (result) {
+        console.log('buildNumber:', result.buildNumber);
         Build.create(result);
         return result;
       })
@@ -31,6 +32,7 @@ router
         require('shelljs/global');
         cd('nightwatchtest');
         exec('./node_modules/nightwatch/bin/nightwatch --group tests', { async: true }, function (code, output) {
+          cd('..')
           var pass = code === 0 ? true : false;
           Build.update(
               { buildNumber: result.buildNumber },
@@ -42,7 +44,8 @@ router
             });
         });
       });
-
   });
+
+
 
 module.exports = router;

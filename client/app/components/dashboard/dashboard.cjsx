@@ -10,6 +10,7 @@ BuildActions = require '../../actions/BuildActions.coffee'
 
 Build = require './build.cjsx'
 PassRateChart = require './pass_rate_chart.cjsx'
+CurrentBuilds = require './current_builds.cjsx'
 
 Dashboard = React.createClass
   startBuild: ->
@@ -34,6 +35,9 @@ Dashboard = React.createClass
               <div className="text-center">
                 <PassRateChart />
               </div>
+            </Panel>
+            <Panel header="Current Builds" bsStyle='primary'>
+              <CurrentBuilds />
             </Panel>
           </Col>
         </Row>

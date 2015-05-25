@@ -1,22 +1,22 @@
 React = require 'react'
 Reflux = require 'reflux'
-
 BuildStore = require '../../stores/BuildStore.coffee'
+
 BuildPanel = require '../common/build.cjsx'
 
-Builds = React.createClass
+CurrentBuilds = React.createClass
   mixins: [Reflux.connect(BuildStore, 'buildList')]
-
   renderBuilds: ->
     builds = []
-    _.eachRight @state?.buildList, (e) ->
+    _.eachRight _.filter(@state?.buildList, (n) -> n.inProgress), (e) ->
       builds.push <BuildPanel key={e._id} build={e} />
+    if builds.length == 0
+      builds.push <h4>No Current Builds</h4>
     builds
 
   render: ->
-    <div className="container">
-      <h1 className="text-center">Builds</h1>
+    <div>
       {@renderBuilds()}
     </div>
 
-module.exports = Builds
+module.exports = CurrentBuilds
