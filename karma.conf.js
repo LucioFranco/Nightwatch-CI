@@ -7,7 +7,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha'],
 
 
     // list of files / patterns to load in the browser
@@ -31,14 +31,26 @@ module.exports = function(config) {
         devtool: 'inline-source-map',
         module: {
             loaders: [
-                { test: /\.js/, exclude: [/app\/lib/, /node_modules/], loader: 'babel' },
-                { test: /\.html/, loader: 'raw' },
-                { test: /\.styl$/, loader: 'style!css!stylus' },
-                { test: /\.css$/, loader: 'style!css' }
+              { test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
+              { test: /\.js$/, exclude: [/app\/lib/, /node_modules/], loader: 'babel' },
+              { test: /\.html$/, loader: 'raw' },
+              { test: /\.less$/, loader: 'style!css!less' },
+              { test: /\.styl$/, loader: 'style!css!stylus' },
+              { test: /\.css$/, loader: 'style!css' },
+              { test: /\.coffee$/, loader: "coffee-loader" },
+              { test: /\.(coffee\.md|litcoffee)$/, loader: "coffee-loader?literate" },
+
+              // Needed for the css-loader when [bootstrap-webpack](https://github.com/bline/bootstrap-webpack)
+              // loads bootstrap's css.
+              { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
+              { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
+              { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=application/octet-stream" },
+              { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: "file" },
+              { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=image/svg+xml" }
             ]
         }
     },
-    
+
     webpackServer: {
       noInfo: true //please don't spam the console when running in karma!
     },

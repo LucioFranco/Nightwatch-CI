@@ -6,7 +6,6 @@ var gulp	 		= require('gulp'),
 		rename		= require('gulp-rename'),
 		template	= require('gulp-template'),
 		fs				= require('fs'),
-		yargs			= require('yargs').argv,
 		lodash 		= require('lodash'),
 		reload		= function () { return serve.reload() }
 		nodemon 	= require('gulp-nodemon');
