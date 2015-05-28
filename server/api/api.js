@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
-var Build = require('./build/model.js');
+var Build = require('./model/Build.js');
 
 router
   .get('/build', function (req, res) {
