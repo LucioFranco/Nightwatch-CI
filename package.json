@@ -1,20 +1,28 @@
 {
-  "name": "angular-webpack-starter",
+  "name": "Nightwatch-CI",
   "version": "0.0.1",
-  "description": "starter",
+  "description": "Simple nightwatch ci tool",
   "main": "index.js",
   "dependencies": {
     "bcrypt-as-promised": "^1.0.1",
     "body-parser": "^1.12.4",
     "bootstrap": "^3.3.4",
     "chart.js": "^1.0.2",
+    "cjsx-loader": "^2.0.1",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.9.2",
+    "css-loader": "^0.12.1",
     "express": "^4.12.4",
+    "file-loader": "^0.8.4",
     "formsy-react": "^0.13.1",
     "formsy-react-components": "^0.2.1",
     "jquery": "^2.1.4",
     "jwt-simple": "^0.3.0",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.0",
     "lodash": "^3.9.1",
     "mongoose": "^4.0.3",
+    "nightwatch": "^0.7.0",
     "normalize.css": "^3.0.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.22.6",
@@ -25,15 +33,13 @@
     "rest": "^1.3.1",
     "shelljs": "^0.5.0",
     "socket.io": "^1.3.5",
+    "style-loader": "^0.12.3",
     "superagent": "^1.2.0",
+    "url-loader": "^0.5.6",
     "webpack": "^1.9.9"
   },
   "devDependencies": {
     "browser-sync": "^2.7.1",
-    "cjsx-loader": "^2.0.1",
-    "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.9.2",
-    "css-loader": "^0.12.1",
     "fs-walk": "0.0.1",
     "gulp": "^3.8.11",
     "gulp-nodemon": "^2.0.3",
@@ -48,20 +54,17 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-sourcemap-loader": "^0.3.4",
     "karma-webpack": "^1.5.1",
-    "less": "^2.5.1",
-    "less-loader": "^2.2.0",
     "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.0",
     "raw-loader": "^0.5.1",
     "run-sequence": "^1.1.0"
   },
   "scripts": {
-    "test": "karma start"
+    "test": "karma start",
+    "start": "./index.js"
   },
   "keywords": [
-    "angular",
-    "webpack",
-    "es6"
+    "Nightwatch"
   ],
   "author": "AngularClass",
   "license": "ISC"

@@ -79,5 +79,5 @@ gulp.task('watch', function(){
 
 
 gulp.task('default', function(done){
-	sync('webpack', 'server', 'serve', 'watch', done);
+	sync('webpack', 'server', 'watch', done);
 });

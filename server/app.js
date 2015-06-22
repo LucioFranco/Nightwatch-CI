@@ -1,10 +1,13 @@
 var express = require('express');
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 var apiRoutes = require('./api/api.js');
 var authRotes = require('./user/user.js');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var userRoutes = require('./user/user.js')
+var userRoutes = require('./user/user.js');
 
 module.exports = function () {
   var db = mongoose.connect('mongodb://localhost/nightwatch');
@@ -13,6 +16,7 @@ module.exports = function () {
 
   app.use(bodyParser.json());
   app.use(function (req, res, next) {
+    res.io = io;
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log(req.method + ' ' + req.url);
@@ -28,7 +32,9 @@ module.exports = function () {
     else
       console.error(err.stack);
       res.status(err.status);
-  })
+  });
+
+  app.server = server;
 
   return app;
 };

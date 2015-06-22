@@ -1,5 +1,6 @@
-React = require('react')
-Router = require('react-router')
+React = require 'react'
+Router = require 'react-router'
+$ = require 'jquery'
 
 require './app.less'
 
@@ -16,7 +17,6 @@ App = React.createClass
           <RouteHandler />
         </div>
       </div>
-
-Router.run(require('./routes.cjsx')(App), Router.HistoryLocation,(Handler) ->
-  React.render(<Handler />, app)
+Router.run(require('./routes.cjsx')(App), Router.HistoryLocation, (Handler) ->
+  React.render(<Handler />, document.getElementById('app'))
 )

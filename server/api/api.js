@@ -18,7 +18,13 @@ router
   .post('/build/start', function (req, res) {
     Build.find().sort('buildNumber').exec()
       .then(function (result) {
-        var number = result[result.length - 1].buildNumber + 1;
+        var number;
+
+        if (result.length > 0)
+          number = result[result.length - 1].buildNumber + 1;
+        else
+          number = 1;
+
         return {
           buildNumber: number
         }
@@ -30,9 +36,10 @@ router
       })
       .then(function (result) {
         require('shelljs/global');
-        cd('nightwatchtest');
-        exec('./node_modules/nightwatch/bin/nightwatch --group tests', { async: true }, function (code, output) {
-          cd('..')
+        console.log('start');
+        cd('../OmbudPlatform/qa/functional')
+        exec('./node_modules/nightwatch/bin/nightwatch --group tests -e local-chrome', { async: true }, function (code, output) {
+          console.log('done');
           var pass = code === 0 ? true : false;
           Build.update(
               { buildNumber: result.buildNumber },
@@ -40,10 +47,11 @@ router
             )
             .exec()
             .then(function (response) {
-              res.json(response);
+              res.io.emit('buildStoreUpdate', { msg: response });
             });
         });
       });
+      res.status(200);
   });
 
 
