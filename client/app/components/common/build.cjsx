@@ -8,6 +8,7 @@ SmartTimeAgo = require 'react-smart-time-ago'
 
 BuildModal = React.createClass
   render: ->
+    console.log JSON.parse @props.build.output
     <Modal {...@props} title={"Build #" + @props.build.buildNumber}>
       <div className="modal-body">
         <p>

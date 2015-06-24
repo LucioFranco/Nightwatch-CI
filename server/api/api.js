@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 var Build = require('./model/Build.js');
+var worker = require('../worker');
 
 router
   .get('/build', function (req, res) {
@@ -10,7 +11,7 @@ router
       .sort('buildNumber')
       .exec()
       .then(function (doc) {
-        res.json(doc);
+        res.json(_.each(doc, function (e) {e.output = JSON.parse(e.output)}));
       });
   });
 
@@ -35,25 +36,18 @@ router
         return result;
       })
       .then(function (result) {
-        require('shelljs/global');
-        console.log('start');
-        cd('../OmbudPlatform/qa/functional')
-        exec('./node_modules/nightwatch/bin/nightwatch --group tests -e local-chrome', { async: true }, function (code, output) {
-          console.log('done');
-          var pass = code === 0 ? true : false;
+        worker.runNightwatch(function (pass, results) {
           Build.update(
-              { buildNumber: result.buildNumber },
-              { inProgress: false, pass: pass, output: output }
-            )
-            .exec()
-            .then(function (response) {
-              res.io.emit('buildStoreUpdate', { msg: response });
-            });
-        });
+            { buildNumber: result.buildNumber },
+            { inProgress: false, pass: pass, output: JSON.stringify(results) }
+          )
+          .exec()
+          .then(function (response) {
+            res.io.emit('buildStoreUpdate', { msg: response });
+          });
+        })
       });
       res.status(200);
   });
-
-
 
 module.exports = router;
