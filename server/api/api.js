@@ -1,23 +1,27 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
-var Build = require('./model/Build.js');
+var Build = require('./service/Build.js');
 var worker = require('../worker');
 
 router
   .get('/build', function (req, res) {
     Build
-      .find({})
-      .sort('buildNumber')
-      .exec()
-      .then(function (doc) {
-        res.json(_.each(doc, function (e) {e.output = JSON.parse(e.output)}));
+      .getAllBuilds()
+      .then(function (result) {
+        res.json(result);
       });
   });
 
 router
+  .get('/build/queue', function (req, res) {
+
+  });
+
+router
   .post('/build/start', function (req, res) {
-    Build.find().sort('buildNumber').exec()
+    Build
+      .getLastBuildNumber()
       .then(function (result) {
         var number;
 
@@ -32,20 +36,21 @@ router
       })
       .then(function (result) {
         console.log('buildNumber:', result.buildNumber);
-        Build.create(result);
-        return result;
+        return Build.create(result);
       })
       .then(function (result) {
-        worker.runNightwatch(function (pass, results) {
-          Build.update(
-            { buildNumber: result.buildNumber },
-            { inProgress: false, pass: pass, output: JSON.stringify(results) }
-          )
-          .exec()
-          .then(function (response) {
-            res.io.emit('buildStoreUpdate', { msg: response });
-          });
-        })
+        return worker
+          .runNightwatch(result.buildNumber);
+      })
+      .then(function (result) {
+        console.log('result' + result);
+        return Build.updateBuild(result);
+      })
+      .then(function (result) {
+        res.io.emit('buildStoreUpdate', { msg: result });
+      })
+      .catch(function (err) {
+        console.log('error' + err);
       });
       res.status(200);
   });

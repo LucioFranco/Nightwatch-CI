@@ -14,6 +14,7 @@ CurrentBuilds = require './current_builds.cjsx'
 
 Dashboard = React.createClass
   startBuild: ->
+    console.log 'button pressed'
     BuildActions.newBuild()
 
   render: ->

@@ -8,7 +8,6 @@ SmartTimeAgo = require 'react-smart-time-ago'
 
 BuildModal = React.createClass
   render: ->
-    console.log JSON.parse @props.build.output
     <Modal {...@props} title={"Build #" + @props.build.buildNumber}>
       <div className="modal-body">
         <p>
@@ -18,18 +17,25 @@ BuildModal = React.createClass
     </Modal>
 
 BuildPanel = React.createClass
+  renderStats: ->
+    if !@props.build.inProgress
+      <span className="pull-right">
+        <p>Passed: {@props.build?.output?.passed} / {@props.build?.output?.assertions}</p>
+      </span>
+
   render: ->
     <Col>
-      <Panel>
-        <ModalTrigger modal={<BuildModal {...@props} />}>
+      <ModalTrigger modal={<BuildModal {...@props} />}>
+        <Panel>
           <span>
             <h4>
               <Glyph glyph={if @props.build.inProgress then 'refresh' else if @props.build.pass then 'ok-sign' else 'remove-sign'} />  Build #{@props.build.buildNumber}
             </h4>
             <SmartTimeAgo value={@props.build.timestamp} />
           </span>
-        </ModalTrigger>
-      </Panel>
+          {@renderStats()}
+        </Panel>
+      </ModalTrigger>
     </Col>
 
 module.exports = BuildPanel
