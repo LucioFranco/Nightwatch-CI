@@ -13,6 +13,9 @@ BuildStore = Reflux.createStore
     io.on 'buildStoreUpdate', (data) => @onGetList()
     @onGetList()
 
+  getInitialState: ->
+    @buildList
+
   onGetList: ->
     request
       .get Util.baseUrl + '/api/build'

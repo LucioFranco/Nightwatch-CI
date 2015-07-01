@@ -11,7 +11,7 @@ PassRateChart = React.createClass
     fail = 0
     inProgress = 0
     _.each @state.builds, (e) ->
-      if e.inProgress
+      if _.has e, 'inProgress'
         inProgress++
       else if e.pass
         pass++
@@ -39,10 +39,9 @@ PassRateChart = React.createClass
         }
     ]
 
-
   render: ->
     <div className="text-center">
-      {if @state.builds then <PieChart data={@getData()}/> else <h4>No Builds in the System</h4>}
+      {if _.has @state, 'builds' && @state.builds.length > 0 then <PieChart data={@getData()} /> else <h4>No Builds in the System</h4>}
     </div>
 
 module.exports = PassRateChart

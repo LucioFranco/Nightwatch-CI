@@ -13,6 +13,9 @@ QueueStore = Reflux.createStore
     io.on 'queueStoreUpdate', (data) => @onGetList()
     @onGetList()
 
+  getInitialState: ->
+    @queueList
+
   onGetList: ->
     console.log 'getting queued builds'
     request

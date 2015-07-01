@@ -21,7 +21,7 @@ router
       })
       .catch(function (err) {
         console.error(err);
-      })
+      });
   });
 
 router

@@ -5,11 +5,11 @@ BuildStore = require '../../stores/BuildStore.coffee'
 BuildPanel = require '../common/build.cjsx'
 
 Builds = React.createClass
-  mixins: [Reflux.connect(BuildStore, 'buildList')]
+  mixins: [Reflux.connect(BuildStore, 'builds')]
 
   renderBuilds: ->
     builds = []
-    _.eachRight @state?.buildList, (e) ->
+    _.eachRight @state?.builds, (e) ->
       builds.push <BuildPanel key={e._id} build={e} />
     builds
 
