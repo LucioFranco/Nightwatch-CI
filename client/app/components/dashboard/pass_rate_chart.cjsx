@@ -41,6 +41,8 @@ PassRateChart = React.createClass
 
 
   render: ->
-    <PieChart data={@getData()}/>
+    <div className="text-center">
+      {if @state.builds then <PieChart data={@getData()}/> else <h4>No Builds in the System</h4>}
+    </div>
 
 module.exports = PassRateChart

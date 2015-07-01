@@ -43,7 +43,7 @@ router
           .runNightwatch(result.buildNumber);
       })
       .then(function (result) {
-        console.log('result' + result);
+        console.log('result' + JSON.stringify(result));
         return Build.updateBuild(result);
       })
       .then(function (result) {

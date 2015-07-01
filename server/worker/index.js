@@ -1,5 +1,6 @@
 var cp = require('child_process');
 var path = require('path');
+var when = require('when');
 
 var workers = {
   runNightwatch: function (buildNumber) {
@@ -10,7 +11,7 @@ var workers = {
           '--group',
           'rx/default/account',
           '-e',
-          'local-chrome'
+          'staging-chrome'
         ],
         {
           cwd: path.join(path.join(process.cwd(), '..'), 'OmbudPlatform/qa/functional')
@@ -19,10 +20,11 @@ var workers = {
       console.log(nightwatch);
       nightwatch.on('message', function (message) {
         if (typeof message === 'string')
-          console.log(message);
-        else
+          console.log('message from worker' + message);
+        else {
           message.buildNumber = buildNumber;
           resolve(message);
+        }
       });
       nightwatch.on('err', function (err) {
         console.log(err);

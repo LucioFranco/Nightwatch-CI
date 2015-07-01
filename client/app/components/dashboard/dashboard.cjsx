@@ -33,9 +33,7 @@ Dashboard = React.createClass
           </Col>
           <Col xs={5}>
             <Panel header="Pass Rate" bsStyle='primary'>
-              <div className="text-center">
-                <PassRateChart />
-              </div>
+              <PassRateChart />
             </Panel>
             <Panel header="Current Builds" bsStyle='primary'>
               <CurrentBuilds />

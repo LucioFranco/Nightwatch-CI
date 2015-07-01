@@ -3,7 +3,6 @@ var Build = require('../model/build');
 
 module.exports = {
   getAllBuilds: function () {
-    console.log(when);
     return when.promise(function (resolve, reject, notify) {
       Build
         .find({})
@@ -38,7 +37,7 @@ module.exports = {
       Build
         .update(
           { buildNumber: result.buildNumber },
-          { inProgress: false, pass: result.pass, output: JSON.stringify(result.result) },
+          { inProgress: false, pass: result.pass, output: JSON.stringify(result.results) },
           function (response) {
             resolve(response);
           }
