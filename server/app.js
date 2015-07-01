@@ -8,6 +8,9 @@ var authRotes = require('./user/user.js');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var userRoutes = require('./user/user.js');
+var Build = require('./api/service/buildService');
+var worker  = require('./worker');
+var jobRunner = worker.startJobRunner(Build.finished(io));
 
 module.exports = function () {
   var db = mongoose.connect('mongodb://localhost/nightwatch');
@@ -17,6 +20,7 @@ module.exports = function () {
   app.use(bodyParser.json());
   app.use(function (req, res, next) {
     res.io = io;
+    res.jobRunner = jobRunner;
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log(req.method + ' ' + req.url);

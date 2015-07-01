@@ -6,7 +6,7 @@ Panel = require 'react-bootstrap/lib/Panel'
 Glyph = require 'react-bootstrap/lib/Glyphicon'
 Button = require 'react-bootstrap/lib/Button'
 _ = require 'lodash'
-BuildActions = require '../../actions/BuildActions.coffee'
+QueueActions = require '../../actions/QueueActions.coffee'
 
 Build = require './build.cjsx'
 PassRateChart = require './pass_rate_chart.cjsx'
@@ -15,7 +15,7 @@ CurrentBuilds = require './current_builds.cjsx'
 Dashboard = React.createClass
   startBuild: ->
     console.log 'button pressed'
-    BuildActions.newBuild()
+    QueueActions.newBuild()
 
   render: ->
     <div className="container">

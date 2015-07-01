@@ -1,8 +1,7 @@
 var express = require('express');
-var router = express.Router();
-var _ = require('lodash');
-var Build = require('./service/Build.js');
-var worker = require('../worker');
+var router  = express.Router();
+var _       = require('lodash');
+var Build   = require('./service/buildService');
 
 router
   .get('/build', function (req, res) {
@@ -15,7 +14,14 @@ router
 
 router
   .get('/build/queue', function (req, res) {
-
+    res.jobRunner.getBuildQueue()
+      .then(function (result) {
+        console.log(result);
+        res.json(result);
+      })
+      .catch(function (err) {
+        console.error(err);
+      })
   });
 
 router
@@ -23,36 +29,14 @@ router
     Build
       .getLastBuildNumber()
       .then(function (result) {
-        var number;
-
-        if (result.length > 0)
-          number = result[result.length - 1].buildNumber + 1;
-        else
-          number = 1;
-
-        return {
-          buildNumber: number
-        }
+        return res.jobRunner.add(result);
       })
-      .then(function (result) {
-        console.log('buildNumber:', result.buildNumber);
-        return Build.create(result);
-      })
-      .then(function (result) {
-        return worker
-          .runNightwatch(result.buildNumber);
-      })
-      .then(function (result) {
-        console.log('result' + JSON.stringify(result));
-        return Build.updateBuild(result);
-      })
-      .then(function (result) {
-        res.io.emit('buildStoreUpdate', { msg: result });
+      .then(function () {
+        res.status(200).json({});
       })
       .catch(function (err) {
-        console.log('error' + err);
+        console.error(err);
       });
-      res.status(200);
   });
 
 module.exports = router;

@@ -8,8 +8,8 @@ _ = require 'lodash'
 
 BuildStore = Reflux.createStore
   listenables: [BuildActions]
-  buildList: []
   init: ->
+    @buildList = []
     io.on 'buildStoreUpdate', (data) => @onGetList()
     @onGetList()
 
@@ -20,13 +20,5 @@ BuildStore = Reflux.createStore
       .end (err, res) =>
         @buildList = _.each res.body, (e) -> e.output = JSON.parse e.output
         @trigger @buildList
-
-  onNewBuild: ->
-    @buildList.push({ pass: false, inProgress: true, buildNumber: @buildList.length + 1 });
-    @trigger @buildList
-    request
-      .post Util.baseUrl + '/api/build/start'
-      .end (err, res) =>
-        @onGetList()
 
 module.exports = BuildStore

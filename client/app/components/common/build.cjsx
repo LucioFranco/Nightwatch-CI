@@ -5,6 +5,7 @@ Glyph = require 'react-bootstrap/lib/Glyphicon'
 ModalTrigger = require 'react-bootstrap/lib/ModalTrigger'
 Modal = require 'react-bootstrap/lib/Modal'
 SmartTimeAgo = require 'react-smart-time-ago'
+_ = require 'lodash'
 
 BuildModal = React.createClass
   render: ->
@@ -18,19 +19,21 @@ BuildModal = React.createClass
 
 BuildPanel = React.createClass
   renderStats: ->
-    if !@props.build.inProgress
-      <span className="pull-right">
-        <p>Passed: {@props.build?.output?.passed} / {@props.build?.output?.assertions}</p>
-      </span>
+    if _.has @props.build, 'pass'
+        <span className="pull-right"><p>Passed: {@props.build?.output?.passed} / {@props.build?.output?.assertions}</p></span>
+
+  renderIcon: ->
+    if _.has @props.build, 'inProgress'
+      <h4><Glyph glyph={if @props.build.inProgress then 'refresh' else 'upload'} />  Build #{@props.build.buildNumber}</h4>
+    else if @props.build
+      <h4><Glyph glyph={if @props.build.pass then 'ok-sign' else 'remove-sign'} />  Build #{@props.build.buildNumber}</h4>
 
   render: ->
     <Col>
       <ModalTrigger modal={<BuildModal {...@props} />}>
         <Panel>
           <span>
-            <h4>
-              <Glyph glyph={if @props.build.inProgress then 'refresh' else if @props.build.pass then 'ok-sign' else 'remove-sign'} />  Build #{@props.build.buildNumber}
-            </h4>
+            {@renderIcon()}
             <SmartTimeAgo value={@props.build.timestamp} />
           </span>
           {@renderStats()}

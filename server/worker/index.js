@@ -17,7 +17,7 @@ var workers = {
           cwd: path.join(path.join(process.cwd(), '..'), 'OmbudPlatform/qa/functional')
         }
       );
-      console.log(nightwatch);
+
       nightwatch.on('message', function (message) {
         if (typeof message === 'string')
           console.log('message from worker' + message);
@@ -31,6 +31,46 @@ var workers = {
         reject(err);
       });
     });
+  },
+  startJobRunner: function (buildDone) {
+    var runner = cp.fork(__dirname + '/jobRunner.js');
+
+    runner._maxListeners = 25;
+    runner.on('message', function (msg) {
+      if (msg.type === 'buildCompleted')
+        buildDone(msg.result);
+    });
+
+    return  {
+      add: function (buildNumber) {
+        return when.promise(function (resolve, reject) {
+          runner.send({ type: 'newBuild', buildNumber: buildNumber });
+          runner.on('message', function (msg) {
+            if (msg.type === 'newBuild')
+              resolve();
+          })
+        });
+      },
+      getCurrentBuild: function () {
+        return when.promise(function (resolve, reject) {
+          runner.send({ type: 'currentBuild' });
+          runner.on('message', function (msg) {
+            if (msg.type === 'currentBuild')
+              resolve(msg.result);
+          });
+        });
+      },
+      getBuildQueue: function () {
+        return when.promise(function (resolve, reject) {
+          runner.send({ type: 'buildQueue' });
+          runner.on('message', function (msg) {
+            if (msg.type === 'buildQueue') {
+                resolve(msg.results);
+            }
+          });
+        });
+      }
+    }
   }
 };
 
