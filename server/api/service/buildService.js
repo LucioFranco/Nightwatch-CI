@@ -34,6 +34,8 @@ var self = module.exports = {
       var doc = {
         buildNumber: result.buildNumber,
         pass: result.pass,
+        started_at: result.started_at,
+        finished_at: result.finished_at,
         output: JSON.stringify(result.results)
       }
 

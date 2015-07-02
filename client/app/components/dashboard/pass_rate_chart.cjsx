@@ -3,13 +3,14 @@ require 'chart.js'
 PieChart = require 'react-chartjs/lib/Pie'
 Reflux = require 'reflux'
 BuildStore = require '../../stores/BuildStore.coffee'
+QueueStore = require '../../stores/QueueStore.coffee'
 
 PassRateChart = React.createClass
-  mixins: [Reflux.connect(BuildStore, 'builds')]
+  mixins: [Reflux.connect(BuildStore, 'builds'), Reflux.connect(QueueStore, 'queue')]
   getData: ->
     pass = 0
     fail = 0
-    inProgress = 0
+    inProgress = @state.queue?.length
     _.each @state.builds, (e) ->
       if _.has e, 'inProgress'
         inProgress++
@@ -41,7 +42,7 @@ PassRateChart = React.createClass
 
   render: ->
     <div className="text-center">
-      {if _.has @state, 'builds' && @state.builds.length > 0 then <PieChart data={@getData()} /> else <h4>No Builds in the System</h4>}
+      {if @state.builds?.length > 0 then <PieChart data={@getData()} /> else <h4>No Builds in the System</h4>}
     </div>
 
 module.exports = PassRateChart

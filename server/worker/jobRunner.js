@@ -23,7 +23,7 @@ function startBuild() {
   worker
     .runNightwatch(build.buildNumber)
     .then(function (result) {
-      process.send({type: 'buildCompleted', result: result});
+      process.send({type: 'buildCompleted', result: _.merge(result, {finished_at: new Date(), started_at: currentBuild.started_at})});
       queue.shift();
       currentBuild = new Object();
       if (queue.length > 0)
@@ -46,7 +46,7 @@ function buildQueueList() {
 
 process.on('message', function (msg) {
   if (msg.type === 'newBuild') {
-    queue.push({ buildNumber: msg.buildNumber + queue.length, inProgress: false });
+    queue.push({ buildNumber: msg.buildNumber + queue.length, inProgress: false, started_at: new Date() });
     console.log('post add ', queue);
     process.send({ type: 'newBuild' });
   }else if (msg.type === 'currentBuild')

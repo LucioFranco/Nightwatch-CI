@@ -17,7 +17,6 @@ QueueStore = Reflux.createStore
     @queueList
 
   onGetList: ->
-    console.log 'getting queued builds'
     request
       .get Util.baseUrl + '/api/build/queue'
       .set 'Content-Type', 'application/json'

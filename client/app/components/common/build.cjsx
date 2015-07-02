@@ -4,6 +4,7 @@ Panel = require 'react-bootstrap/lib/Panel'
 Glyph = require 'react-bootstrap/lib/Glyphicon'
 ModalTrigger = require 'react-bootstrap/lib/ModalTrigger'
 Modal = require 'react-bootstrap/lib/Modal'
+moment = require 'moment-precise-range'
 SmartTimeAgo = require 'react-smart-time-ago'
 _ = require 'lodash'
 
@@ -20,7 +21,10 @@ BuildModal = React.createClass
 BuildPanel = React.createClass
   renderStats: ->
     if _.has @props.build, 'pass'
-        <span className="pull-right"><p>Passed: {@props.build?.output?.passed} / {@props.build?.output?.assertions}</p></span>
+        <span className="pull-right text-right">
+          <p>Length: {moment.preciseDiff(@props.build.started_at, @props.build.finished_at, { day:true, hour: true, minute: true, fixed_second: true })}</p>
+          <p>Passed: {@props.build?.output?.passed} / {@props.build?.output?.assertions}</p>
+        </span>
 
   renderIcon: ->
     if _.has @props.build, 'inProgress'
@@ -32,11 +36,11 @@ BuildPanel = React.createClass
     <Col>
       <ModalTrigger modal={<BuildModal {...@props} />}>
         <Panel>
+          {@renderStats()}
           <span>
             {@renderIcon()}
-            <SmartTimeAgo value={@props.build.timestamp} />
+            <SmartTimeAgo value={@props.build.started_at} />
           </span>
-          {@renderStats()}
         </Panel>
       </ModalTrigger>
     </Col>
