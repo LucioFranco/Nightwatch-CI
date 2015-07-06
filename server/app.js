@@ -7,10 +7,10 @@ var cookieParser = require('cookie-parser');
 
 var auth = require('./auth');
 
-var apiRoutes = require('./api/api.js');
-var authRotes = require('./user/user.js');
+var apiRoutes = require('./api');
+var authRoutes = require('./auth/auth.js');
+
 var mongoose = require('mongoose');
-var userRoutes = require('./user/user.js');
 var Build = require('./api/service/buildService');
 var worker  = require('./worker');
 var jobRunner = worker.startJobRunner(Build.finished(io));
@@ -30,7 +30,7 @@ module.exports = function () {
     next();
   });
 
-  app.use('/user', userRoutes);
+  app.use('/auth', authRoutes);
   app.use('/api', apiRoutes);
 
   app.use(function (err, req, res, next) {

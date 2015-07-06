@@ -2,9 +2,6 @@ var express = require('express');
 var router  = express.Router();
 var _       = require('lodash');
 var Build   = require('./service/buildService');
-var auth = require('../auth').jwt;
-
-router.use(auth);
 
 router
   .get('/build', function (req, res) {

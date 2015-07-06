@@ -7,7 +7,7 @@ Util = require '../util.coffee'
 
 
 UserStore = Reflux.createStore
-  listenables: [UserActions]
+  listenables: [ UserActions ]
   init: ->
     @user = {}
 
@@ -21,7 +21,7 @@ UserStore = Reflux.createStore
 
   onLogin: (data)->
     request
-      .post Util.baseUrl + '/user/login'
+      .post Util.baseUrl + '/auth/login'
       .set 'Accept': 'application/json'
       .send data
       .end (err, res) =>
@@ -31,7 +31,7 @@ UserStore = Reflux.createStore
 
   onAuth: ->
     request
-      .get Util.baseUrl + '/user/auth/check'
+      .get Util.baseUrl + '/auth/check'
       .set Util.auth_header()
       .end (err, res) =>
         @user = res.body

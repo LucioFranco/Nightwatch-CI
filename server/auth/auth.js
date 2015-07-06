@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
-var User = require('./model/User.js');
-var UserService = require('./service/UserService');
+var User = require('../api/model/User.js');
+var UserService = require('../api/service/userService');
 var bcrypt = require('bcrypt-as-promised');
 var passport = require('passport');
 
@@ -29,7 +29,7 @@ router
   });
 
 router
-  .get('/auth/check', passport.authenticate('jwt', { session: false }),function (req, res, next) {
+  .get('/check', passport.authenticate('jwt', { session: false }),function (req, res, next) {
     res.json(req.user);
   });
 

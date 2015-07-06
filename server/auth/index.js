@@ -1,7 +1,7 @@
 var passport = require('passport');
 var localStrategy = require('passport-local');
 var jwtStrategy = require('passport-jwt').Strategy;
-var UserService = require('../user/service/UserService');
+var UserService = require('../api/service/userService');
 var config = require('../config');
 
 module.exports = {
