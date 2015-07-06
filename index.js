@@ -17,6 +17,14 @@ if (argv.c) {
   });
 }
 
+app.use(function (req, res, next) {
+  console.log(req.originalUrl);
+  if (req.originalUrl.)
+  next();
+});
 app.use(express.static(__dirname + '/client/static'));
+app.get('/*', function (req, res) {
+  res.sendFile(__dirname + '/client/static/index.html');
+});
 
 app.server.listen(process.env.BACKEND_PORT || 3000);

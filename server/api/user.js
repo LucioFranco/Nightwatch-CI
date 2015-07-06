@@ -1,12 +1,16 @@
 var express = require('express');
 var router  = express.Router();
 var _       = require('lodash');
-var Build   = require('./service/userService');
+var UserService   = require('./service/userService');
 var auth = require('../auth').jwt;
 
 router.use(auth);
 
 router
-  .route('')
+  .route('/')
+  .post(function (req, res, next) {
+    User
+      .createUser(req.body)
+  })
 
 module.exports = router;

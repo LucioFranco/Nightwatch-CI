@@ -14,7 +14,7 @@ module.exports = function (env) {
 					{ test: /\.cjsx$/, loaders: ['coffee', 'cjsx']},
 					{ test: /\.js$/, exclude: [/app\/lib/, /node_modules/], loader: 'babel' },
 				  { test: /\.html$/, loader: 'raw' },
-					{ test: /\.less$/, loader: 'style!css!less' },
+					{ test: /\.less$/, loader: 'style!css!less?relativeUrls' },
 					{ test: /\.styl$/, loader: 'style!css!stylus' },
 					{ test: /\.css$/, loader: 'style!css' },
 					{ test: /\.coffee$/, loader: "coffee-loader" },

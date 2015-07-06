@@ -19,7 +19,7 @@ Menu = React.createClass
         {<NavItem onClick={=> @transitionTo '/admin'}><Glyph glyph="asterisk"/>  Admin</NavItem> unless !@state.user?.admin}
       </Nav>
       <Nav pullRight>
-        <NavItem onClick={UserActions.logout}>Logout</NavItem>
+        <NavItem onClick={UserActions.logout}><strong>Logout</strong> as {@state.user.firstname + ' ' + @state.user.lastname}</NavItem>
       </Nav>
     </Navbar>
 

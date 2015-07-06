@@ -37,5 +37,12 @@ UserStore = Reflux.createStore
         @user = res.body
         @trigger @user
 
+  onCreate: (user) ->
+    request
+      .post Util.baseUrl + '/api/user'
+      .set 'Accept': 'application/json'
+      .set Util.auth_header()
+      .send user
+      .end()
 
 module.exports = UserStore
