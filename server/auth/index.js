@@ -1,11 +1,14 @@
 var passport = require('passport');
 var localStrategy = require('passport-local');
-var jwtStrategy = require('passport-jwt');
+var jwtStrategy = require('passport-jwt').Strategy;
 var UserService = require('../user/service/UserService');
+var config = require('../config');
 
 module.exports = {
   init: function () {
-    passport.use(new localStrategy(UserService.checkLocal));
+    passport.use(new localStrategy({ session: false }, UserService.checkLocal));
+    passport.use(new jwtStrategy({ secretOrKey: config.jwt_secret }, UserService.checkJwt))
     return passport.initialize();
-  }
+  },
+  jwt: passport.authenticate('jwt', { session: false })
 }

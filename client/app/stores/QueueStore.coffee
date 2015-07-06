@@ -20,6 +20,7 @@ QueueStore = Reflux.createStore
     request
       .get Util.baseUrl + '/api/build/queue'
       .set 'Content-Type', 'application/json'
+      .set Util.auth_header()
       .end (err, res) =>
         @queueList = res.body
         @trigger @queueList
@@ -27,6 +28,7 @@ QueueStore = Reflux.createStore
   onNewBuild: ->
     request
       .post Util.baseUrl + '/api/build/start'
+      .set Util.auth_header()
       .end (err, res) =>
         @onGetList()
 

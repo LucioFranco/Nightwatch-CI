@@ -1,8 +1,21 @@
 var User = require('../model/User');
 var bcrypt = require('bcrypt-as-promised');
 var when = require('when');
+var _ = require('lodash');
+var jwt = require('jwt-simple');
+var config = require('../../config');
 
 var self = module.exports = {
+  checkJwt: function (payload, done) {
+    User
+      .findOne({ _id: payload._id })
+      .exec(function (err, user) {
+        if (err) return done(err);
+        if (!user) return done(null, false, 'Wrong Jwt payload');
+
+        return done(null, _.pick(user, ['username', 'firstname', 'lastname', '_id', 'email', 'admin', 'timestamp']));
+      });
+  },
   checkLocal: function (username, password, done) {
     User
       .findOne({ username: username })
@@ -12,7 +25,8 @@ var self = module.exports = {
         bcrypt
           .compare(password, user.password)
           .then(function (result) {
-            return done(null, user);
+            user.auth_token = jwt.encode(_.pick(user, ['username', '_id', 'email']), config.jwt_secret);
+            return done(null, _.pick(user, ['username', 'firstname', 'lastname', '_id', 'email', 'admin', 'timestamp', 'auth_token']));
           })
           .catch(function (err) {
             return done(null, false, { message:'Wrong Password' });

@@ -9,7 +9,7 @@ CreateUser = require './components/admin/create_user.cjsx'
 
 module.exports = (app) ->
     <Route name="app" path="/" handler={app}>
-      <Route path="/?" handler={Login}>
+      <Route path="/" handler={Login}>
         <DefaultRoute handler={Dashboard} />
         <Route name="builds" handler={Builds} />
         <Route name="admin" handler={Admin}>

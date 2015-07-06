@@ -10,7 +10,7 @@ PassRateChart = React.createClass
   getData: ->
     pass = 0
     fail = 0
-    inProgress = @state.queue?.length
+    inProgress = @state.queue?.length || 0
     _.each @state.builds, (e) ->
       if _.has e, 'inProgress'
         inProgress++

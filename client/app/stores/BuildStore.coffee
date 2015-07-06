@@ -11,15 +11,16 @@ BuildStore = Reflux.createStore
   init: ->
     @buildList = []
     io.on 'buildStoreUpdate', (data) => @onGetList()
-    @onGetList()
 
   getInitialState: ->
+    @onGetList()
     @buildList
 
   onGetList: ->
     request
       .get Util.baseUrl + '/api/build'
       .set 'Content-Type', 'application/json'
+      .set Util.auth_header()
       .end (err, res) =>
         @buildList = _.each res.body, (e) -> e.output = JSON.parse e.output
         @trigger @buildList
