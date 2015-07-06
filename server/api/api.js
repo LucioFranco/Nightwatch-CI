@@ -16,7 +16,6 @@ router
   .get('/build/queue', function (req, res) {
     res.jobRunner.getBuildQueue()
       .then(function (result) {
-        console.log(result);
         res.json(result);
       })
       .catch(function (err) {

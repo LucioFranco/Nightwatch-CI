@@ -1,12 +1,13 @@
 var mongoose = require('mongoose');
 
 var UserSchema = mongoose.Schema({
-  name: String,
+  firstname: String,
+  lastname: String,
   username: String,
   password: String,
   email: String,
-  timestamp: { type: Date, default: Date.now },
-  githubUsername: { type: String, default: 'No Account' }
+  admin: { type: Boolean, default: false },
+  timestamp: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Users', UserSchema);

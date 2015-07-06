@@ -2,34 +2,30 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 var User = require('./model/User.js');
+var UserService = require('./service/UserService');
 var bcrypt = require('bcrypt-as-promised');
+var passport = require('passport');
 
 router
-  .post('/login', function (req, res, next) {
-    res.status(200);
+  .post('/login', passport.authenticate('local'),function (req, res, next) {
+    res.redirect('/');
   });
 
 router
-  .post('/', function (req, res, next) {
-    if (!req.body.name || !req.body.username || !req.body.password || !req.body.email)
-      next({ status: 400, msg: 'Missing something' })
-    bcrypt
-      .genSalt(10)
-      .then(function (result) {
-        bcrypt
-          .hash(req.body.password, result)
-          .then(function (result) {
-            User.create({
-              name: req.body.name,
-              username: req.body.username,
-              password: result,
-              email: req.body.email
-            }).exec()
-            .then(function (result) {
-              res.status(200);
-            });
-          });
+  .post('/create/admin/once', function (req, res, next) {
+    UserService
+      .createUser(req.body, true)
+      .then(function () {
+        res.redirect('/');
+      })
+      .catch(function (err) {
+        next(err);
       });
+  });
+
+router
+  .get('/auth/check',function (req, res, next) {
+    res.json({});
   });
 
 module.exports = router;

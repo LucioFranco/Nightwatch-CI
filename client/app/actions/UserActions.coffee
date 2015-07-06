@@ -1,5 +1,5 @@
 Reflux = require 'reflux'
 
-UserActions = Reflux.createActions ['getUser', 'createUser']
+UserActions = Reflux.createActions ['auth']
 
 module.exports = UserActions

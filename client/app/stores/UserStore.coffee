@@ -7,20 +7,15 @@ Util = require '../util.coffee'
 
 UserStore = Reflux.createStore
   listenables: [UserActions]
-  user: { }
   getInitialState: ->
+    @onAuth()
 
-  onGetUser: ->
-    user
-
-  onCreateUser: (user) ->
-    console.log 'asdfasdf'
+  onAuth: ->
     request
-      .post Util.baseUrl + '/user'
-      .set 'Content-Type', 'application/json'
-      .send user
-      .end (err, result) ->
-        console.log result
+      .get Util.baseUrl + '/user/auth/check'
+      .end (err, res) ->
+        @user = res.body
+        @trigger @user
 
 
 module.exports = UserStore
