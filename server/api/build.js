@@ -5,7 +5,7 @@ var Build   = require('./service/buildService');
 var auth = require('../auth').jwt;
 
 router
-  .get('/build', function (req, res) {
+  .get('/', function (req, res) {
     Build
       .getAllBuilds()
       .then(function (result) {
@@ -14,7 +14,7 @@ router
   });
 
 router
-  .get('/build/queue', function (req, res) {
+  .get('/queue', function (req, res) {
     res.jobRunner.getBuildQueue()
       .then(function (result) {
         res.json(result);
@@ -25,7 +25,7 @@ router
   });
 
 router
-  .get('/build/start', auth, function (req, res) {
+  .get('/start', auth, function (req, res) {
     Build
       .getLastBuildNumber()
       .then(function (result) {

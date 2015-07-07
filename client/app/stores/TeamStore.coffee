@@ -17,9 +17,8 @@ TeamStore = Reflux.createStore
 
   onGetList: ->
     request
-      .get Util.baseUrl + '/api/user'
+      .get Util.baseUrl + '/api/user/'
       .set 'Accept': 'application/json'
-      .set Util.auth_header()
       .end (err, res) =>
         @users = res.body
         @trigger @users

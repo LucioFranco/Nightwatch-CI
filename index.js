@@ -23,7 +23,6 @@ function multiStringMatch(str, list) {
 }
 
 function getFinalEndpoint(url) {
-  console.log(_.last(url.split("/")));
   return _.last(url.split("/"));
 }
 

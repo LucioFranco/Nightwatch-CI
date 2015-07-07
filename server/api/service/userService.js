@@ -78,10 +78,10 @@ var self = module.exports = {
   getAllUsers: function () {
     return when.promise(function (resolve, reject) {
       User
-        .find()
+        .find({})
         .exec(function (err, res) {
-          if (err) reject(err);
-          resolve(res);
+            if (err) reject(err);
+            resolve(res);
         });
     });
   }

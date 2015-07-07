@@ -4,22 +4,21 @@ var _       = require('lodash');
 var UserService   = require('./service/userService');
 var auth = require('../auth').jwt;
 
-router.use(auth);
-
 router
   .route('/')
   .get(function (req, res, next) {
-    User
+    UserService
       .getAllUsers()
       .then(function (result) {
+        console.log(result);
         res.json(result);
       })
       .catch(function (err) {
         next(err);
       });
   })
-  .post(function (req, res, next) {
-    User
+  .post(auth, function (req, res, next) {
+    UserService
       .createUser(req.body, req.body.group === 'admin')
       .then(function () {
         res.json({});

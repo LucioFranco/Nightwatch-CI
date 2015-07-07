@@ -3,7 +3,7 @@ React = require 'react'
 TeamMember = React.createClass
   render: ->
     <div>
-      {#TODO}
+      {@props.user?.firstname}
     </div>
 
 module.exports = TeamMember
