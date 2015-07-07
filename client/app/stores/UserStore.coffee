@@ -5,6 +5,7 @@ _ = require 'lodash'
 UserActions = require '../actions/UserActions.coffee'
 Util = require '../util.coffee'
 
+rest = require 'rest'
 
 UserStore = Reflux.createStore
   listenables: [ UserActions ]

@@ -11,6 +11,13 @@ userStoreMixin = require '../../mixins/user_store.coffee'
 
 Menu = React.createClass
   mixins: [Router.Navigation, userStoreMixin]
+
+  renderAuth: ->
+    if @state.user?.username
+      <NavItem onClick={UserActions.logout}><strong>Logout</strong> as {@state.user.firstname + ' ' + @state.user.lastname}</NavItem>
+    else
+      <NavItem onClick={=> @transitionTo '/login'}><strong>Login</strong></NavItem>
+
   render: ->
     <Navbar brand={<Link to='/'>Nightwatch Runner</Link>} inverse fixedTop toggleNavKey={0}>
       <Nav>
@@ -19,7 +26,7 @@ Menu = React.createClass
         {<NavItem onClick={=> @transitionTo '/admin'}><Glyph glyph="asterisk"/>  Admin</NavItem> unless !@state.user?.admin}
       </Nav>
       <Nav pullRight>
-        <NavItem onClick={UserActions.logout}><strong>Logout</strong> as {@state.user.firstname + ' ' + @state.user.lastname}</NavItem>
+        {@renderAuth()}
       </Nav>
     </Navbar>
 

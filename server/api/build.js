@@ -2,6 +2,7 @@ var express = require('express');
 var router  = express.Router();
 var _       = require('lodash');
 var Build   = require('./service/buildService');
+var auth = require('../auth').jwt;
 
 router
   .get('/build', function (req, res) {
@@ -24,7 +25,7 @@ router
   });
 
 router
-  .post('/build/start', function (req, res) {
+  .get('/build/start', auth, function (req, res) {
     Build
       .getLastBuildNumber()
       .then(function (result) {

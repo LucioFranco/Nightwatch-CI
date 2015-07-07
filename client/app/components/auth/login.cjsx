@@ -1,14 +1,14 @@
 React = require 'react/addons'
+Router = require 'react-router'
 
 { RouteHandler } = require 'react-router'
 
 userStoreMixin = require '../../mixins/user_store.coffee'
 
 UserActions = require '../../actions/UserActions.coffee'
-Header = require '../header/header.cjsx'
 
 Login = React.createClass
-  mixins: [ userStoreMixin, React.addons.LinkedStateMixin ]
+  mixins: [ userStoreMixin, React.addons.LinkedStateMixin, Router.Navigation ]
 
   getInitialState: ->
     username: ''
@@ -27,9 +27,10 @@ Login = React.createClass
       password: ''
     )
     UserActions.login(data)
+    @transitionTo '/'
 
 
-  renderLogin: ->
+  render: ->
     <div className="login-page row">
       <div className="login col-xs-12 col-xs-offset-0 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
         <form onSubmit={@handleSubmit}>
@@ -46,20 +47,5 @@ Login = React.createClass
         </form>
       </div>
     </div>
-
-  renderLayout: ->
-    <div>
-      <Header />
-      <div className="RouteHandler container">
-        <RouteHandler />
-      </div>
-    </div>
-
-  render: ->
-    console.log @state.user
-    if @state.user?.username
-      @renderLayout()
-    else
-      @renderLogin()
 
 module.exports = Login
