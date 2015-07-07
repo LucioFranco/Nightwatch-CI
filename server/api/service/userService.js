@@ -74,5 +74,15 @@ var self = module.exports = {
           reject(err);
         })
     });
+  },
+  getAllUsers: function () {
+    return when.promise(function (resolve, reject) {
+      User
+        .find()
+        .exec(function (err, res) {
+          if (err) reject(err);
+          resolve(res);
+        });
+    });
   }
 };
