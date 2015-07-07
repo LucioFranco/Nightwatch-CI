@@ -6,17 +6,27 @@ Glyph = require 'react-bootstrap/lib/Glyphicon'
 Router = require 'react-router'
 Link = Router.Link
 
+Login = require '../auth/login.cjsx'
+
 UserActions = require '../../actions/UserActions.coffee'
 userStoreMixin = require '../../mixins/user_store.coffee'
 
 Menu = React.createClass
   mixins: [Router.Navigation, userStoreMixin]
 
+  getInitialState: ->
+    showLogin: false
+
   renderAuth: ->
     if @state.user?.username
-      <NavItem onClick={UserActions.logout}><strong>Logout</strong> as {@state.user.firstname + ' ' + @state.user.lastname}</NavItem>
+      <Nav pullRight>
+        <NavItem onClick={UserActions.logout}><strong>Logout</strong> as {@state.user.firstname + ' ' + @state.user.lastname}</NavItem>
+      </Nav>
     else
-      <NavItem onClick={=> @transitionTo '/login'}><strong>Login</strong></NavItem>
+      <Nav pullRight>
+        <NavItem onClick={=> @setState showLogin: true}><strong>Login</strong></NavItem>
+        {<Login /> unless !@state.showLogin}
+      </Nav>
 
   render: ->
     <Navbar brand={<Link to='/'>Nightwatch Runner</Link>} inverse fixedTop toggleNavKey={0}>
@@ -25,9 +35,7 @@ Menu = React.createClass
         <NavItem onClick={=> @transitionTo '/builds'}><Glyph glyph="warning-sign"/>  Builds</NavItem>
         {<NavItem onClick={=> @transitionTo '/admin'}><Glyph glyph="asterisk"/>  Admin</NavItem> unless !@state.user?.admin}
       </Nav>
-      <Nav pullRight>
-        {@renderAuth()}
-      </Nav>
+      {@renderAuth()}
     </Navbar>
 
 

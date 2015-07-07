@@ -79,7 +79,7 @@ CreateUser = React.createClass
             />
             <Select
               name="group"
-              value="Admin"
+              value="a"
               label="Group"
               options={[ {value: 'a', label: 'admin'}, {value: 'u', label: 'user'} ]}
               required

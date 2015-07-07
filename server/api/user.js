@@ -19,7 +19,7 @@ router
   })
   .post(auth, function (req, res, next) {
     UserService
-      .createUser(req.body, req.body.group === 'admin')
+      .createUser(req.body, req.body.group === 'a')
       .then(function () {
         res.json({});
       })
