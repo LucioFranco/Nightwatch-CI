@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = function (env) {
 	if (!env)
 		env = false;
@@ -9,6 +11,9 @@ module.exports = function (env) {
 		output: {
 			path: __dirname + '/client/static',
 			filename: 'bundle.js'
+		},
+		resolveLoader: {
+			root: path.join(__dirname, 'node_modules')
 		},
 		debug: env,
 		module: {
