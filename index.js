@@ -1,5 +1,5 @@
 var express = require('express');
-var app = require('./server/app.js')();
+var app;
 var webpack = require('webpack');
 var _ = require('lodash');
 var path = require('path');
@@ -11,6 +11,7 @@ var paths = {
 
 module.exports = {
   init: function (config) {
+    app = require('./server/app.js')(config.mongoUri);
     if (config.createAdmin) {
       var again = true;
       app.get('/create', function (req, res) {

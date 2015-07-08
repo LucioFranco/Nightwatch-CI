@@ -2,9 +2,18 @@
 var argv = require('minimist')(process.argv.slice(2));
 var app = require('../index.js');
 
-var config = {
-  createAdmin: argv.c,
-  dev: false
+var config;
+
+if (argv.c || argv.config) {
+  config = require(argv.config);
+}else {
+  if (!argv.dev)
+    argv.dev = false;
+  config = {
+    createAdmin: argv.createAdmin,
+    dev: argv.dev,
+    mongoUrl: argv.m || argv.mongo
+  }
 }
 
 app.init(config);

@@ -15,8 +15,8 @@ var Build = require('./api/service/buildService');
 var worker  = require('./worker');
 var jobRunner = worker.startJobRunner(Build.finished(io));
 
-module.exports = function () {
-  var db = mongoose.connect('mongodb://localhost/nightwatch');
+module.exports = function (mongoUri) {
+  var db = mongoose.connect(mongoUri || process.env.mongodb_uri || 'mongodb://localhost/nightwatch');
 
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({extended: false}));
