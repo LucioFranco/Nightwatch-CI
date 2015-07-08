@@ -13,10 +13,10 @@ var authRoutes = require('./auth/auth.js');
 var mongoose = require('mongoose');
 var Build = require('./api/service/buildService');
 var worker  = require('./worker');
-var jobRunner = worker.startJobRunner(Build.finished(io));
 
-module.exports = function (mongoUri) {
+module.exports = function (nightwatchConfig, mongoUri) {
   var db = mongoose.connect(mongoUri || process.env.mongodb_uri || 'mongodb://localhost/nightwatch');
+  var jobRunner = worker.startJobRunner(nightwatchConfig, Build.finished(io));
 
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({extended: false}));

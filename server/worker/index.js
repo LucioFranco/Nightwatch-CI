@@ -1,20 +1,18 @@
 var cp = require('child_process');
 var path = require('path');
 var when = require('when');
+var nwConfig = {};
 
 var workers = {
   runNightwatch: function (buildNumber) {
     return when.promise(function (resolve, reject, notify) {
+      if (nwConfig.args && nwConfig.testPath)
+        return console.log('no nightwatch config passed');
       var nightwatch = cp.fork(
         __dirname + '/testRunner.js',
-        [
-          '--group',
-          'rx/default/account',
-          '-e',
-          'staging-chrome'
-        ],
+        nwConfig.args,
         {
-          cwd: path.join(path.join(process.cwd(), '..'), 'OmbudPlatform/qa/functional')
+          cwd: nwConfig.testPath
         }
       );
 
@@ -32,7 +30,8 @@ var workers = {
       });
     });
   },
-  startJobRunner: function (buildDone) {
+  startJobRunner: function (nightwatchConfig, buildDone) {
+    nwConfig = nightwatchConfig;
     var runner = cp.fork(__dirname + '/jobRunner.js');
 
     runner._maxListeners = 25;

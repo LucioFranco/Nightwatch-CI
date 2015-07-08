@@ -11,7 +11,7 @@ var paths = {
 
 module.exports = {
   init: function (config) {
-    app = require('./server/app.js')(config.mongoUri);
+    app = require('./server/app.js')(config.nightwatchConfig, config.mongoUri);
     if (config.createAdmin) {
       var again = true;
       app.get('/create', function (req, res) {
@@ -32,7 +32,7 @@ module.exports = {
       if(jsonStats.warnings.length > 0)
           console.log(jsonStats.warnings);
       return;
-    })
+    });
   },
   use: function (middleware) {
     app.use(middleware);

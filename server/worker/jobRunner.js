@@ -4,15 +4,21 @@ var queue = [];
 var worker = require('./index.js');
 var currentBuild = {};
 var currentlyWorking = false;
+var lastBuildNumber = -1;
 
 console.log('Started Job runner');
 
+function addBuild() {
+  console.log('adding build');
+  queue.push({ buildNumber: lastBuildNumber++, inProgress: false, started_at: new Date() });
+  startBuild();
+}
+
 function listenAndStartBuild() {
   currentlyWorking = false;
-  process.on('message', function (msg) {
-    if (msg.type === 'newBuild' && !currentlyWorking)
-      setTimeout(startBuild(), 500);
-  });
+  if (lastBuildNumber > 0) {
+    setTimeout(addBuild, 900000);
+  }
 }
 
 function startBuild() {
@@ -46,8 +52,10 @@ function buildQueueList() {
 
 process.on('message', function (msg) {
   if (msg.type === 'newBuild') {
+    lastBuildNumber = msg.buildNumber + queue.length;
     queue.push({ buildNumber: msg.buildNumber + queue.length, inProgress: false, started_at: new Date() });
-    console.log('post add ', queue);
+    if (!currentlyWorking)
+      startBuild();
     process.send({ type: 'newBuild' });
   }else if (msg.type === 'currentBuild')
     process.send({ type: 'currentBuild', result: currentBuild });

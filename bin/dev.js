@@ -1,7 +1,11 @@
 var app = require('../index.js');
 
 var config = {
-  dev: true
+  dev: true,
+  nightwatchConfig: {
+    args: ['--group'],
+    testPath: __dirname + '/nightwatchtest'
+  }
 }
 
 app.init(config);
