@@ -22,7 +22,11 @@ module.exports = {
       });
     }
     // TODO: add flags and options for command line tool
-    webpack(require('./webpack.config.js')(config.dev));
+    var compiler = webpack(require('./webpack.config.js')(config.dev));
+    compiler.run(function (err, stats) {
+      if (err) console.log(err);
+      console.log(stats);
+    })
   },
   use: function (middleware) {
     app.use(middleware);
