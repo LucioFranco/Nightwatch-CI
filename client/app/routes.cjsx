@@ -6,6 +6,7 @@ Dashboard = require './components/dashboard/dashboard.cjsx'
 Builds = require './components/builds/builds.cjsx'
 Admin = require './components/admin/admin.cjsx'
 CreateUser = require './components/admin/create_user.cjsx'
+GenKey = require './components/admin/generate_api_key.cjsx'
 Team = require './components/team/team.cjsx'
 
 module.exports = (app) ->
@@ -16,5 +17,6 @@ module.exports = (app) ->
       <Route name="team" handler={Team} />
       <Route name="admin" handler={Admin}>
         <Route name="create" handler={CreateUser} />
+        <Route name="genkey" handler={GenKey} />
       </Route>
     </Route>

@@ -25,13 +25,14 @@ router
   });
 
 router
-  .get('/start', auth, function (req, res) {
+  .post('/start', auth, function (req, res) {
     Build
       .getLastBuildNumber()
       .then(function (result) {
         return res.jobRunner.add(result);
       })
       .then(function () {
+        res.io.emit('queueStoreUpdate');
         res.status(200).json({});
       })
       .catch(function (err) {

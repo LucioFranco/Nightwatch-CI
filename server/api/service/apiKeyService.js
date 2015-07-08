@@ -15,7 +15,8 @@ exports.genKey = function (name) {
       },
       function (err, res) {
         if (err) reject(err);
-        resolve({ api_key: jwt.encode(_.pick(res, ['_id', 'name']), config.jwt_secret) });
+        res.type = 'api_token';
+        resolve({ api_key: jwt.encode(_.pick(res, ['_id', 'name', 'type']), config.jwt_secret) });
       })
   });
 }

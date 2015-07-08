@@ -12,6 +12,8 @@ Admin = React.createClass
       <h4>Admin Page</h4>
       <RouteHandler />
       <Router.Link to='/admin/create'>Create User</Router.Link>
+      <br />
+      <Router.Link to='/admin/genkey'>Generate API Key</Router.Link>
     </div>
 
 module.exports = Admin
