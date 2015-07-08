@@ -18,7 +18,7 @@ CreateUser = React.createClass
     if @state.loading
       <div>
         <h4>Create User</h4>
-        <img src={require('loading-svg/loading-spin.svg')} alt="Lodaing icon" />
+        <img src={} alt="Lodaing icon" /> {#TODO added loading svg}
       </div>
     else
       <div>
