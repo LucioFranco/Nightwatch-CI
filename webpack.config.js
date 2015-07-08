@@ -12,7 +12,7 @@ module.exports = function (env) {
 			__dirname + '/client/app/app.cjsx'
 		],
 		output: {
-			path: __dirname + '/client/static',
+			path: path.join(__dirname, 'client/static'),
 			filename: 'bundle.js'
 		},
 		resolveLoader: {
