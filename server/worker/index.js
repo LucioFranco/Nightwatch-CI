@@ -1,18 +1,17 @@
 var cp = require('child_process');
 var path = require('path');
 var when = require('when');
-var nwConfig = {};
 
 var workers = {
-  runNightwatch: function (buildNumber) {
+  runNightwatch: function (config, buildNumber) {
     return when.promise(function (resolve, reject, notify) {
-      if (nwConfig.args && nwConfig.testPath)
+      if (!nwConfig.args && !nwConfig.testPath)
         return console.log('no nightwatch config passed');
       var nightwatch = cp.fork(
         __dirname + '/testRunner.js',
-        nwConfig.args,
+        config.args,
         {
-          cwd: nwConfig.testPath
+          cwd: config.testPath
         }
       );
 
@@ -31,7 +30,6 @@ var workers = {
     });
   },
   startJobRunner: function (nightwatchConfig, buildDone) {
-    nwConfig = nightwatchConfig;
     var runner = cp.fork(__dirname + '/jobRunner.js');
 
     runner._maxListeners = 25;
@@ -39,6 +37,7 @@ var workers = {
       if (msg.type === 'buildCompleted')
         buildDone(msg.result);
     });
+    runner.send({ type: 'config', config: nightwatchConfig });
 
     return  {
       add: function (buildNumber) {

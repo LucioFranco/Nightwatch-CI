@@ -5,6 +5,7 @@ var worker = require('./index.js');
 var currentBuild = {};
 var currentlyWorking = false;
 var lastBuildNumber = -1;
+var config = {};
 
 console.log('Started Job runner');
 
@@ -27,7 +28,7 @@ function startBuild() {
   var build = currentBuild = queue[0];
   console.log('Build #' + currentBuild + ' has started');
   worker
-    .runNightwatch(build.buildNumber)
+    .runNightwatch(config, build.buildNumber)
     .then(function (result) {
       process.send({type: 'buildCompleted', result: _.merge(result, {finished_at: new Date(), started_at: currentBuild.started_at})});
       queue.shift();
@@ -61,6 +62,8 @@ process.on('message', function (msg) {
     process.send({ type: 'currentBuild', result: currentBuild });
   else if (msg.type === 'buildQueue')
     process.send({ type: 'buildQueue', results: buildQueueList()});
+  else if (msg.type === 'config')
+    config = msg.config;
 });
 
 listenAndStartBuild();
