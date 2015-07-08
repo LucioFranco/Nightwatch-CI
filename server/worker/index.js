@@ -5,7 +5,7 @@ var when = require('when');
 var workers = {
   runNightwatch: function (config, buildNumber) {
     return when.promise(function (resolve, reject, notify) {
-      if (!nwConfig.args && !nwConfig.testPath)
+      if (!config.args && !config.testPath)
         return console.log('no nightwatch config passed');
       var nightwatch = cp.fork(
         __dirname + '/testRunner.js',
