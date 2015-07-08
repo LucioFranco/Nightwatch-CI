@@ -15,6 +15,6 @@ try {
     });
   });
 } catch (err) {
-  console.log('there was a problem');
+  console.log('[Nightwatch Error]', err);
   process.exit(2);
 }
