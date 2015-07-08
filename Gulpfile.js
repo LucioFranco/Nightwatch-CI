@@ -32,7 +32,7 @@ var paths = {
 		resolveToApp('**/*.html'),
 		path.join(root, 'index.html')
 	],
-	server: __dirname + '/index.js',
+	server: __dirname + '/bin/dev.js',
 
 	entry: path.join(root, 'app/app.cjsx'),
 	output: __dirname + '/client/static',

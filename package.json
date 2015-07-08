@@ -66,14 +66,13 @@
   },
   "scripts": {
     "test": "karma start",
-    "start": "./index.js"
+    "start": "./bin/runner"
   },
   "keywords": [
     "Nightwatch"
   ],
-  "preferGlobal": "true",
   "bin": {
-    "dok": "index.js"
+    "nightwatch-ci": "./bin/runner"
   },
   "author": "Lucio Franco",
   "license": "ISC"
