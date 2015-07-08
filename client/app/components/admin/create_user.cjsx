@@ -18,7 +18,7 @@ CreateUser = React.createClass
     if @state.loading
       <div>
         <h4>Create User</h4>
-        <img src={} alt="Lodaing icon" />
+        {#<img src={} alt="Lodaing icon" />}
       </div>
     else
       <div>

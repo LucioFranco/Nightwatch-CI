@@ -24,8 +24,14 @@ module.exports = {
     // TODO: add flags and options for command line tool
     var compiler = webpack(require('./webpack.config.js')(config.dev));
     compiler.run(function (err, stats) {
-      if (err) console.log(err);
-      console.log(stats);
+      if(err)
+        return console.log(err);
+      var jsonStats = stats.toJson();
+      if(jsonStats.errors.length > 0)
+          return console.log(jsonStats.errors);
+      if(jsonStats.warnings.length > 0)
+          console.log(jsonStats.warnings);
+      return;
     })
   },
   use: function (middleware) {
