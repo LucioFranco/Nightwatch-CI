@@ -4,6 +4,7 @@ module.exports = function (env) {
 	if (!env)
 		env = false;
 	return {
+		context: __dirname,
 		devtool: 'eval',
 		entry: [
 			__dirname + '/client/app/app.cjsx'
