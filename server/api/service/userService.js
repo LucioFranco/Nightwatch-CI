@@ -1,20 +1,33 @@
-var User = require('../model/User');
 var bcrypt = require('bcrypt-as-promised');
 var when = require('when');
 var _ = require('lodash');
 var jwt = require('jwt-simple');
+
+var User = require('../model/User');
+var ApiKey = require('../model/ApiKey');
+
 var config = require('../../config');
 
 var self = module.exports = {
   checkJwt: function (payload, done) {
-    User
-      .findOne({ _id: payload._id })
-      .exec(function (err, user) {
-        if (err) return done(err);
-        if (!user) return done(null, false, 'Wrong Jwt payload');
+    if (payload.type === 'api_token') {
+      ApiKey
+        .findOne({ _id: payload._id })
+        .exec(function (err, response) {
+          if (err) return done(err);
+          if (!response) return done(null, false, 'No access');
+          return done(null, payload);
+        });
+    }else if(payload.type === 'user_token') {
+      User
+        .findOne({ _id: payload._id })
+        .exec(function (err, user) {
+          if (err) return done(err);
+          if (!user) return done(null, false, 'Wrong Jwt payload');
 
-        return done(null, _.pick(user, ['username', 'firstname', 'lastname', '_id', 'email', 'admin', 'timestamp']));
-      });
+          return done(null, _.pick(user, ['username', 'firstname', 'lastname', '_id', 'email', 'admin', 'timestamp']));
+        });
+    }
   },
   checkLocal: function (username, password, done) {
     User
@@ -25,7 +38,8 @@ var self = module.exports = {
         bcrypt
           .compare(password, user.password)
           .then(function (result) {
-            user.auth_token = jwt.encode(_.pick(user, ['username', '_id', 'email']), config.jwt_secret);
+            user.type = 'user_token';
+            user.auth_token = jwt.encode(_.pick(user, ['username', '_id', 'email', 'type']), config.jwt_secret);
             return done(null, _.pick(user, ['username', 'firstname', 'lastname', '_id', 'email', 'admin', 'timestamp', 'auth_token']));
           })
           .catch(function (err) {
