@@ -5,7 +5,7 @@ module.exports = function (env) {
 		env = false;
 	return {
 		resolve: {
-			root: __dirname
+			root: path.join(__dirname, 'client/app')
 		},
 		devtool: 'eval',
 		entry: [
