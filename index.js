@@ -10,8 +10,8 @@ var paths = {
 };
 
 module.exports = {
-  init: function (dev, createAdmin) {
-    if (createAdmin) {
+  init: function (config) {
+    if (config.createAdmin) {
       var again = true;
       app.get('/create', function (req, res) {
         if (again)
@@ -21,7 +21,7 @@ module.exports = {
       });
     }
     // TODO: add flags and options for command line tool
-    webpack(require('./webpack.config.js')(dev));
+    webpack(require('./webpack.config.js')(config.dev));
   },
   use: function (middleware) {
     app.use(middleware);

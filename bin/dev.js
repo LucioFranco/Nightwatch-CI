@@ -1,3 +1,8 @@
 var app = require('../index.js');
-app.init(true);
+
+var config = {
+  dev: true
+}
+
+app.init(config);
 app.start();
