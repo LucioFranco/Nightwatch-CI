@@ -5,39 +5,48 @@ var worker = require('./index.js');
 var currentBuild = {};
 var currentlyWorking = false;
 var lastBuildNumber = -1;
+var buildScheduled = false;
 var config = {};
 
 console.log('Started Job runner');
 
 function addBuild() {
-  console.log('adding build');
-  queue.push({ buildNumber: lastBuildNumber++, inProgress: false, started_at: new Date() });
+  console.log('last build number', lastBuildNumber);
+  lastBuildNumber += 1;
+  queue.push({ buildNumber: lastBuildNumber, inProgress: false, started_at: new Date() });
+  buildScheduled = false;
   startBuild();
+  process.send({ type: 'newBuild' });
 }
 
 function listenAndStartBuild() {
   currentlyWorking = false;
-  if (lastBuildNumber > 0) {
-    setTimeout(addBuild, 900000);
+  if (lastBuildNumber > 0 && !buildScheduled) {
+    console.log('adding build');
+    buildScheduled = true;
+    setTimeout(addBuild, config.repeat || 1200000);
   }
 }
 
 function startBuild() {
-  currentlyWorking = true;
-  queue.inProgress = true;
-  var build = currentBuild = queue[0];
-  console.log('Build #' + currentBuild + ' has started');
-  worker
-    .runNightwatch(config, build.buildNumber)
-    .then(function (result) {
-      process.send({type: 'buildCompleted', result: _.merge(result, {finished_at: new Date(), started_at: currentBuild.started_at})});
-      queue.shift();
-      currentBuild = new Object();
-      if (queue.length > 0)
-        startBuild();
-      else
-        listenAndStartBuild();
-    });
+  if (!currentlyWorking) {
+    currentlyWorking = true;
+    queue.inProgress = true;
+    var build = currentBuild = queue[0];
+    console.log('Build #' + currentBuild.buildNumber + ' has started');
+    worker
+      .runNightwatch(config.nightwatchConfig, build.buildNumber)
+      .then(function (result) {
+        currentlyWorking = false;
+        process.send({type: 'buildCompleted', result: _.merge(result, {finished_at: new Date(), started_at: currentBuild.started_at})});
+        queue.shift();
+        currentBuild = new Object();
+        if (queue.length > 0)
+          startBuild();
+        else
+          listenAndStartBuild();
+      });
+  }
 }
 
 function buildQueueList() {

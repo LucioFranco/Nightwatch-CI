@@ -11,7 +11,7 @@ var paths = {
 
 module.exports = {
   init: function (config) {
-    app = require('./server/app.js')(config.nightwatchConfig, config.mongoUri);
+    app = require('./server/app.js')(config.jobRunner, config.mongoUri);
     if (config.createAdmin) {
       var again = true;
       app.get('/create', function (req, res) {

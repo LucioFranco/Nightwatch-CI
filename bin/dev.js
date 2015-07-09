@@ -1,10 +1,14 @@
 var app = require('../index.js');
+var path = require('path');
 
 var config = {
   dev: true,
-  nightwatchConfig: {
-    args: ['--group'],
-    testPath: __dirname + '/nightwatchtest'
+  jobRunner: {
+    repeat: 20000,
+    nightwatchConfig: {
+      args: ['--group'],
+      testPath: path.join(process.cwd(), 'nightwatchtest')
+    }
   }
 }
 

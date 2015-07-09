@@ -29,15 +29,17 @@ var workers = {
       });
     });
   },
-  startJobRunner: function (nightwatchConfig, buildDone) {
+  startJobRunner: function (config, io,buildDone) {
     var runner = cp.fork(__dirname + '/jobRunner.js');
 
     runner._maxListeners = 25;
     runner.on('message', function (msg) {
       if (msg.type === 'buildCompleted')
         buildDone(msg.result);
+      else if(msg.type === 'newBuild')
+        io.emit('queueStoreUpdate');
     });
-    runner.send({ type: 'config', config: nightwatchConfig });
+    runner.send({ type: 'config', config: config });
 
     return  {
       add: function (buildNumber) {

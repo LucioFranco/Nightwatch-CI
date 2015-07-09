@@ -13,9 +13,12 @@ if (argv.c || argv.config) {
     createAdmin: argv.createAdmin,
     dev: argv.dev,
     mongoUrl: argv.m || argv.mongo,
-    nightwatchConfig: {
-      args: ['--group'],
-      testPath: process.cwd()
+    jobRunner: {
+      repeat: 900000,
+      nightwatchConfig: {
+        args: ['--group'],
+        testPath: process.cwd()
+      }
     }
   }
 }
