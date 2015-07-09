@@ -8,7 +8,7 @@ CurrentBuilds = React.createClass
   mixins: [Reflux.connect(QueueStore, 'queueList')]
   renderBuilds: ->
     builds = []
-    _.eachRight @state?.queueList, (e) ->
+    _.each @state?.queueList, (e) ->
       builds.push <BuildPanel key={e._id} build={e} />
     if builds.length == 0
       builds.push <h4 className="text-center">No Current Builds</h4>
