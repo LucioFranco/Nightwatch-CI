@@ -39,7 +39,7 @@ BuildPanel = React.createClass
           {@renderStats()}
           <span>
             {@renderIcon()}
-            <SmartTimeAgo value={@props.build.started_at} />
+            <SmartTimeAgo value={if _.has @props.build, 'inProgress' then @props.build.started_at else @props.build.finished_at} />
           </span>
         </Panel>
       </ModalTrigger>
