@@ -38,7 +38,11 @@ module.exports = {
     app.use(middleware);
   },
   register: function (plugin) {
-    //TODO figure plugin system out
+    var basicPlugin = {
+      buildFinished: function (result) {
+        return;
+      }
+    }
   },
   start: function () {
     app.get('/*', function (req, res) {

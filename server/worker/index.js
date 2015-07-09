@@ -29,14 +29,17 @@ var workers = {
       });
     });
   },
-  startJobRunner: function (config, io,buildDone) {
+  startJobRunner: function (config, io, buildDone) {
     var runner = cp.fork(__dirname + '/jobRunner.js');
 
     runner._maxListeners = 25;
     runner.on('message', function (msg) {
-      if (msg.type === 'buildCompleted')
+      if (msg.type === 'buildCompleted') {
+        if (config.buildFinished) {
+          config.buildFinished(msg.result);
+        }
         buildDone(msg.result);
-      else if(msg.type === 'newBuild')
+      }else if (msg.type === 'newBuild')
         io.emit('queueStoreUpdate');
     });
     runner.send({ type: 'config', config: config });
@@ -48,7 +51,7 @@ var workers = {
           runner.on('message', function (msg) {
             if (msg.type === 'newBuild')
               resolve();
-          })
+          });
         });
       },
       getCurrentBuild: function () {

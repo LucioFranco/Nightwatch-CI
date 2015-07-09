@@ -8,6 +8,9 @@ var config = {
     nightwatchConfig: {
       args: ['--group'],
       testPath: path.join(process.cwd(), 'nightwatchtest')
+    },
+    buildFinished: function (result) {
+      return;
     }
   }
 }
