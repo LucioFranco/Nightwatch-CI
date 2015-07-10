@@ -23,7 +23,7 @@ BuildInfo = React.createClass
       if e.failed > 0
         testcases.push <p className="testcase"><Glyphicon glyph="remove" /> {key}</p>
         _.each e.assertions, (e) ->
-          testcases.push <p className="assertion">{e.message}</p> unless !e.failure
+          testcases.push <p className="assertion">{e.message + ' ' + e.failure</p> unless !e.failure
       else
         testcases.push <p className="testcase"><Glyphicon glyph="ok" /> {key}</p>
     testcases
