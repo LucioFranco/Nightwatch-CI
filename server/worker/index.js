@@ -1,9 +1,6 @@
 var cp = require('child_process');
 var path = require('path');
 var when = require('when');
-var before = function () {
-  return;
-}
 
 var workers = {
   runNightwatch: function (config, buildNumber) {
@@ -34,7 +31,6 @@ var workers = {
   },
   startJobRunner: function (config, io, buildDone) {
     var runner = cp.fork(__dirname + '/jobRunner.js');
-    before = config.before;
     runner._maxListeners = 25;
     runner.on('message', function (msg) {
       if (msg.type === 'buildCompleted') {
@@ -46,9 +42,10 @@ var workers = {
         io.emit('queueStoreUpdate');
       else if (msg.type === 'preBuild')
         if (config.before) {
-          before(msg.info, function () {
+          var done = function () {
             runner.send({ type: 'donePreBuild' });
-          })
+          };
+          before(msg.info, done);
         }
     });
     runner.send({ type: 'config', config: config });
