@@ -41,7 +41,7 @@ module.exports = {
   },
   register: function (plugin) {
     var basicPlugin = {
-      buildFinished: function (result) {
+      after: function (result) {
         return;
       }
     }

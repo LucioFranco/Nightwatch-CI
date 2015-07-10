@@ -34,18 +34,27 @@ function startBuild() {
     queue.inProgress = true;
     var build = currentBuild = queue[0];
     console.log('Build #' + currentBuild.buildNumber + ' has started');
-    worker
-      .runNightwatch(config.nightwatchConfig, build.buildNumber)
-      .then(function (result) {
-        currentlyWorking = false;
-        process.send({type: 'buildCompleted', result: _.merge(result, {finished_at: new Date(), started_at: currentBuild.started_at})});
-        queue.shift();
-        currentBuild = new Object();
-        if (queue.length > 0)
-          startBuild();
-        else
-          listenAndStartBuild();
-      });
+    process.send({ type: 'preBuild', info: currentBuild });
+    process.on('message', function (msg) {
+      if (msg.type === 'donePreBuild') {
+        //TODO clean up this mess
+        process.removeListener('message', function (data) {
+          return;
+        });
+        worker
+          .runNightwatch(config.nightwatchConfig, build.buildNumber)
+          .then(function (result) {
+            currentlyWorking = false;
+            process.send({type: 'buildCompleted', result: _.merge(result, {finished_at: new Date(), started_at: currentBuild.started_at})});
+            queue.shift();
+            currentBuild = new Object();
+            if (queue.length > 0)
+              startBuild();
+            else
+              listenAndStartBuild();
+          });
+      }
+    });
   }
 }
 

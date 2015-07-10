@@ -10,7 +10,12 @@ var config = {
       args: ['--group'],
       testPath: path.join(process.cwd(), 'nightwatchtest')
     },
-    buildFinished: function (result) {
+    before: function (info, done) {
+      console.log('before', info);
+      done()
+    },
+    after: function (result) {
+      console.log('after', result);
       return;
     }
   }
