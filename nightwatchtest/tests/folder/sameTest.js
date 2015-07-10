@@ -7,7 +7,7 @@ module.exports = {
   'Test': function (browser) {
     browser
       .assert.elementPresent('#hplogo')
-      //.assert.elementPresent('.laskdfjsadljf')
+      .assert.elementPresent('.laskdfjsadljf')
   },
   after: function (browser) {
     browser.end();

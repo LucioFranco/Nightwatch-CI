@@ -12,7 +12,6 @@ BuildActions.getBuild.listenAndPromise (buildNum) ->
       .set 'Content-Type', 'application/json'
       .set Util.auth_header()
       .end (err, res) ->
-        console.log JSON.parse res.body.output
         reject err if err
         resolve res.body
 

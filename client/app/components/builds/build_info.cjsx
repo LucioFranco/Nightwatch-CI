@@ -1,5 +1,5 @@
 React = require 'react'
-{ ListGroup, ListGroupItem, Glyphicon } = require 'react-bootstrap'
+{ ListGroup, ListGroupItem, Glyphicon, Input } = require 'react-bootstrap'
 _ = require 'lodash'
 
 BuildActions = require '../../actions/BuildActions.coffee'
@@ -15,17 +15,18 @@ BuildInfo = React.createClass
       .catch (err) ->
         console.log err
     loading: true
+    onlyFailed: false
     output: {}
 
   renderTestcases: (module) ->
     testcases = []
     _.forIn module.completed, (e, key) ->
       if e.failed > 0
-        testcases.push <p className="testcase"><Glyphicon glyph="remove" /> {key}</p>
+        testcases.push <p className="testcase"><Glyphicon glyph="remove" /> #{key}</p>
         _.each e.assertions, (e) ->
-          testcases.push <p className="assertion">{e.message + ' ' + e.failure</p> unless !e.failure
-      else
-        testcases.push <p className="testcase"><Glyphicon glyph="ok" /> {key}</p>
+          testcases.push(<p className="assertion">{e.message + ' ' + e.failure}</p>) unless !e.failure
+      else if !@state?.onlyFailed
+        testcases.push <p className="testcase"><Glyphicon glyph="ok" /> #{key}</p>
     testcases
 
   renderModule: (module, moduleName) ->
@@ -53,9 +54,13 @@ BuildInfo = React.createClass
         </ListGroup>
       </div>
 
+  filterFailures: ->
+    @setState onlyFailed: true
+
   render: ->
     <div>
       <h1 className="text-center">Build #{@props.params?.buildNum}</h1>
+      <Input type="radio" label="Show only failed tests" onChange={@filterFailures} />
       {@renderBody()}
     </div>
 
