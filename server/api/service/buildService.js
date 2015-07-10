@@ -13,6 +13,16 @@ var self = module.exports = {
         });
     });
   },
+  getBuildById: function (buildNum) {
+    return when.promise(function (resolve, reject) {
+      Build
+        .findOne({ buildNumber: buildNum })
+        .exec()
+        .then(function(result) {
+          resolve(result);
+        });
+    });
+  },
   getLastBuildNumber: function () {
     return when.promise(function (resolve, reject, notify) {
       Build

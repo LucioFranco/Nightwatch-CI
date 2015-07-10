@@ -22,7 +22,7 @@ BuildStore = Reflux.createStore
       .set 'Content-Type', 'application/json'
       .set Util.auth_header()
       .end (err, res) =>
-        @buildList = _.each res.body, (e) -> e.output = JSON.parse e.output
+        @buildList = res.body #_.each res.body, (e) -> e.output = JSON.parse e.output
         @trigger @buildList
 
 module.exports = BuildStore

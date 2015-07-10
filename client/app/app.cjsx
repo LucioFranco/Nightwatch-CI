@@ -13,7 +13,7 @@ App = React.createClass
       <div>
         <Header />
         <div className="RouteHandler container">
-          <RouteHandler />
+          <RouteHandler {...@props} />
         </div>
       </div>
 Router.run(require('./routes.cjsx')(App), Router.HistoryLocation, (Handler) ->

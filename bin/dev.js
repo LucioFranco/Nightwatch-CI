@@ -3,6 +3,7 @@ var path = require('path');
 
 var config = {
   dev: true,
+  gulp: true,
   jobRunner: {
     repeat: 20000,
     nightwatchConfig: {

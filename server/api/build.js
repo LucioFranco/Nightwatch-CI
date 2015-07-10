@@ -9,7 +9,11 @@ router
     Build
       .getAllBuilds()
       .then(function (result) {
-        res.json(result);
+        res.json(_.map(result, function (e) {
+          e = e.toObject();
+          e.output = _.omit(JSON.parse(e.output), ['modules'])
+          return e;
+        }));
       });
   });
 
@@ -39,5 +43,18 @@ router
         console.error(err);
       });
   });
+
+router
+  .route('/:buildNum')
+  .get(function (req, res) {
+    Build
+      .getBuildById(req.params['buildNum'])
+      .then(function (result) {
+        res.json(result);
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
+  })
 
 module.exports = router;

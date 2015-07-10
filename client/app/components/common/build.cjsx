@@ -1,22 +1,11 @@
 React = require 'react'
-Col = require 'react-bootstrap/lib/Col'
-Panel = require 'react-bootstrap/lib/Panel'
-Glyph = require 'react-bootstrap/lib/Glyphicon'
-ModalTrigger = require 'react-bootstrap/lib/ModalTrigger'
-Modal = require 'react-bootstrap/lib/Modal'
+{ Link } = require 'react-router'
+{ Col, Panel, Glyphicon } = require 'react-bootstrap'
 moment = require 'moment-precise-range'
 SmartTimeAgo = require 'react-smart-time-ago'
 _ = require 'lodash'
 
-BuildModal = React.createClass
-  render: ->
-    <Modal {...@props} title={"Build #" + @props.build.buildNumber}>
-      <div className="modal-body">
-        <p>
-          {@props.build.output}
-        </p>
-      </div>
-    </Modal>
+BuildActions = require '../../actions/BuildActions.coffee'
 
 BuildPanel = React.createClass
   renderStats: ->
@@ -24,25 +13,24 @@ BuildPanel = React.createClass
         <span className="pull-right text-right">
           <p>Length: {moment.preciseDiff(@props.build.started_at, @props.build.finished_at, { day:true, hour: true, minute: true, fixed_second: true })}</p>
           <p>Passed: {@props.build?.output?.passed} / {@props.build?.output?.assertions}</p>
+          <Link to="build" params={buildNum: @props.build?.buildNumber}>Detailed build info</Link>
         </span>
 
   renderIcon: ->
     if _.has @props.build, 'inProgress'
-      <h4><Glyph glyph={if @props.build.inProgress then 'refresh' else 'upload'} />  Build #{@props.build.buildNumber}</h4>
+      <h4><Glyphicon glyph={if @props.build.inProgress then 'refresh' else 'upload'} />  Build #{@props.build.buildNumber}</h4>
     else if @props.build
-      <h4><Glyph glyph={if @props.build.pass then 'ok-sign' else 'remove-sign'} />  Build #{@props.build.buildNumber}</h4>
+      <h4><Glyphicon glyph={if @props.build.pass then 'ok-sign' else 'remove-sign'} />  Build #{@props.build.buildNumber}</h4>
 
   render: ->
     <Col>
-      <ModalTrigger modal={<BuildModal {...@props} />}>
-        <Panel>
-          {@renderStats()}
-          <span>
-            {@renderIcon()}
-            <SmartTimeAgo value={if _.has @props.build, 'inProgress' then @props.build.started_at else @props.build.finished_at} />
-          </span>
-        </Panel>
-      </ModalTrigger>
+      <Panel>
+        {@renderStats()}
+        <span>
+          {@renderIcon()}
+          <SmartTimeAgo value={if _.has @props.build, 'inProgress' then @props.build.started_at else @props.build.finished_at} />
+        </span>
+      </Panel>
     </Col>
 
 module.exports = BuildPanel
