@@ -45,7 +45,7 @@ var workers = {
           var done = function () {
             runner.send({ type: 'donePreBuild' });
           };
-          before(msg.info, done);
+          config.before(msg.info, done);
         }
     });
     runner.send({ type: 'config', config: config });
