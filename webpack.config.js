@@ -8,9 +8,7 @@ module.exports = function (env) {
 			root: path.join(__dirname, 'client/app')
 		},
 		devtool: 'eval',
-		entry: [
-			__dirname + '/client/app/app.cjsx'
-		],
+		entry: './client/app/app.cjsx',
 		output: {
 			path: path.join(__dirname, 'client/static'),
 			filename: 'bundle.js'
