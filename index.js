@@ -22,19 +22,20 @@ module.exports = {
       });
     }
     // TODO: add flags and options for command line tool
-    var compiler = webpack(require('./webpack.config.js')(config.dev));
-    if (!config.gulp) {
-      compiler.run(function (err, stats) {
-        if(err)
-          return console.log(err);
-        var jsonStats = stats.toJson();
-        if(jsonStats.errors.length > 0)
-            return console.log(jsonStats.errors);
-        if(jsonStats.warnings.length > 0)
-            console.log(jsonStats.warnings);
-        return;
-      });
+    if (!config.noCompile) {
+      webpack(require('./webpack.config.js')(config.dev))
+        .run(function (err, stats) {
+          if(err)
+            return console.log(err);
+          var jsonStats = stats.toJson();
+          if(jsonStats.errors.length > 0)
+              return console.log(jsonStats.errors);
+          if(jsonStats.warnings.length > 0)
+              console.log(jsonStats.warnings);
+          return;
+        });
     }
+    return app;
   },
   use: function (middleware) {
     app.use(middleware);
