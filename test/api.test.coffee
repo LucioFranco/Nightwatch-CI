@@ -14,8 +14,3 @@ describe '', ->
     http
       .get '/auth/check'
       .expect 401
-  it '', ->
-    http
-      .get '/api/builds'
-      .then (res) ->
-        console.log res
