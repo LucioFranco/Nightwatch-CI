@@ -2,7 +2,8 @@ var gulp	 		= require('gulp'),
 		webpack		= require('webpack-stream'),
 		path			= require('path'),
 		lodash 		= require('lodash'),
-		nodemon 	= require('gulp-nodemon');
+		nodemon 	= require('gulp-nodemon')
+		sync 			= require('run-sequence');
 
 var paths = {
 	js: 'client/app/**/*',
@@ -30,6 +31,5 @@ gulp.task('build:backend', function () {
 gulp.task('watch', function(){
 	gulp.watch(paths.js, ['build:frontend']);
 });
-
 
 gulp.task('default', ['build:frontend','build:backend', 'watch']);

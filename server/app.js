@@ -15,6 +15,10 @@ var Build = require('./api/service/buildService');
 var worker  = require('./worker');
 
 module.exports = function (config) {
+  if (config.test) {
+    var mockgoose = require('mockgoose');
+    mockgoose(mongoose);
+  }
   var db = mongoose.connect(config.mongoUri || process.env.mongodb_uri || 'mongodb://localhost/nightwatch');
   var jobRunner = worker.startJobRunner(config.jobRunner, io,Build.finished(io));
 
