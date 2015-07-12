@@ -22,10 +22,10 @@ function addBuild() {
 
 function listenAndStartBuild() {
   currentlyWorking = false;
-  if (lastBuildNumber > 0 && !buildScheduled) {
+  if (config.repeat && lastBuildNumber > 0 && !buildScheduled) {
     winston.info('adding build');
     buildScheduled = true;
-    setTimeout(addBuild, config.repeat || 1200000);
+    setTimeout(addBuild, config.repeat);
   }
 }
 
