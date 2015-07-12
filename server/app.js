@@ -20,7 +20,7 @@ module.exports = function (config) {
   }
   var db = mongoose.connect(config.mongoUri || process.env.mongodb_uri || 'mongodb://localhost/nightwatch');
   var jobRunner = worker.startJobRunner(config.jobRunner, io,Build.finished(io));
-  
+
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
   app.use(auth.init());
@@ -28,7 +28,8 @@ module.exports = function (config) {
     res.io = io;
     res.jobRunner = jobRunner;
 
-    console.log(req.method + ' ' + req.url);
+    if (process.env.NODE_ENV !== 'test')
+      console.log(req.method + ' ' + req.url);
     next();
   });
 

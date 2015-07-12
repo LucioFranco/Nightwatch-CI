@@ -52,7 +52,7 @@
     "webpack-stream": "^2.0.0"
   },
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register",
+    "test": "NODE_ENV=test mocha --compilers coffee:coffee-script/register",
     "start": "./bin/runner"
   },
   "keywords": [
