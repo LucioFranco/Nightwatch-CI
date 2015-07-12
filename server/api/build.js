@@ -14,6 +14,9 @@ router
           e.output = _.omit(JSON.parse(e.output), ['modules'])
           return e;
         }));
+      })
+      .catch(function (err) {
+        console.log(err);
       });
   });
 

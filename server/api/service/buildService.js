@@ -5,12 +5,20 @@ var self = module.exports = {
   getAllBuilds: function () {
     return when.promise(function (resolve, reject, notify) {
       Build
-        .find({})
-        .sort('buildNumber')
+        .find({}, function (err, res) {
+          if (err) {
+            console.log('mongoose error', err);
+            reject(err);
+          }
+          else resolve(res);
+        })
+        //.sort('buildNumber')
+        /*
         .exec()
         .then(function(result) {
           resolve(result);
         });
+        */
     });
   },
   getBuildById: function (buildNum) {

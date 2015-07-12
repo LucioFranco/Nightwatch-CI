@@ -3,7 +3,9 @@ var path = require('path');
 
 var config = {
   dev: true,
+  test: true,
   noCompile: true,
+  createAdmin: true,
   jobRunner: {
     repeat: 200000,
     nightwatchConfig: {
