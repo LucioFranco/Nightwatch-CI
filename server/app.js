@@ -3,7 +3,6 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
 
 var auth = require('./auth');
 
@@ -21,8 +20,7 @@ module.exports = function (config) {
   }
   var db = mongoose.connect(config.mongoUri || process.env.mongodb_uri || 'mongodb://localhost/nightwatch');
   var jobRunner = worker.startJobRunner(config.jobRunner, io,Build.finished(io));
-
-  app.use(cookieParser());
+  
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
   app.use(auth.init());

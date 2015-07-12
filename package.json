@@ -1,7 +1,7 @@
 {
   "name": "Nightwatch-CI",
   "version": "0.0.1",
-  "description": "Simple nightwatch ci tool",
+  "description": "Simple nightwatch Continuous Integration tool",
   "main": "index.js",
   "dependencies": {
     "bcrypt-as-promised": "^1.0.1",
@@ -45,22 +45,23 @@
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-nodemon": "^2.0.3",
-    "gulp-webpack-build": "^0.11.1",
     "mocha": "^2.2.5",
     "mockgoose": "^2.0.3",
     "supertest": "^1.0.1",
-    "supertest-as-promised": "^2.0.2"
+    "supertest-as-promised": "^2.0.2",
+    "webpack-stream": "^2.0.0"
   },
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register",
     "start": "./bin/runner"
   },
   "keywords": [
-    "Nightwatch"
+    "Nightwatch",
+    "Continuous Integration"
   ],
   "bin": {
     "nightwatch-ci": "./bin/runner"
   },
   "author": "Lucio Franco",
-  "license": "ISC"
+  "license": "GPL"
 }

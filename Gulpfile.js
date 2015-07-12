@@ -2,8 +2,7 @@ var gulp	 		= require('gulp'),
 		webpack		= require('webpack-stream'),
 		path			= require('path'),
 		lodash 		= require('lodash'),
-		nodemon 	= require('gulp-nodemon')
-		sync 			= require('run-sequence');
+		nodemon 	= require('gulp-nodemon');
 
 var paths = {
 	js: 'client/app/**/*',
