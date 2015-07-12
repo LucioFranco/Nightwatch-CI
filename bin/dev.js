@@ -9,7 +9,11 @@ var config = {
   jobRunner: {
     repeat: 200000,
     nightwatchConfig: {
-      args: ['--group'],
+      args: [
+        '--group',
+        '-e',
+        'chrome'
+      ],
       testPath: path.join(process.cwd(), 'nightwatchtest')
     },
     before: function (info, done) {
