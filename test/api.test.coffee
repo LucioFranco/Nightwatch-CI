@@ -5,7 +5,6 @@ app = require '../index.js'
 should = require 'should'
 
 config =
-  test: true
   noCompile: true
 
 http = request app.init config
