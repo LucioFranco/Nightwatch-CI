@@ -1,12 +1,13 @@
 var cp = require('child_process');
 var path = require('path');
 var when = require('when');
+var winston = require('winston');
 
 var workers = {
   runNightwatch: function (config, buildNumber) {
     return when.promise(function (resolve, reject, notify) {
       if (!config.args && !config.testPath)
-        return console.log('no nightwatch config passed');
+        return winston.error('no nightwatch config passed');
       var nightwatch = cp.fork(
         __dirname + '/testRunner.js',
         config.args,
@@ -17,14 +18,13 @@ var workers = {
 
       nightwatch.on('message', function (message) {
         if (typeof message === 'string')
-          console.log('message from worker' + message);
+          winston.info('message from worker' + message);
         else {
           message.buildNumber = buildNumber;
           resolve(message);
         }
       });
       nightwatch.on('err', function (err) {
-        console.log(err);
         reject(err);
       });
     });
@@ -56,7 +56,7 @@ var workers = {
           runner.send({ type: 'newBuild', buildNumber: buildNumber });
           runner.on('message', function (msg) {
             if (msg.type === 'newBuild')
-              resolve();
+              resolve(msg.build);
           });
         });
       },

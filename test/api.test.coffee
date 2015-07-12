@@ -5,6 +5,7 @@ app = require '../index.js'
 should = require 'should'
 
 config =
+  log_level: 'warn'
   noCompile: true
 
 http = request app.init config

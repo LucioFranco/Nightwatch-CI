@@ -5,7 +5,7 @@ var Build   = require('./service/buildService');
 var auth = require('../auth').jwt;
 
 router
-  .get('/', function (req, res) {
+  .get('/', function (req, res, next) {
     Build
       .getAllBuilds()
       .then(function (result) {
@@ -15,49 +15,37 @@ router
           return e;
         }));
       })
-      .catch(function (err) {
-        console.log(err);
-      });
+      .catch(next);
   });
 
 router
-  .get('/queue', function (req, res) {
+  .get('/queue', function (req, res, next) {
     res.jobRunner.getBuildQueue()
       .then(function (result) {
         res.json(result);
       })
-      .catch(function (err) {
-        console.error(err);
-      });
+      .catch(next);
   });
 
 router
-  .post('/start', auth, function (req, res) {
+  .post('/start', auth, function (req, res, next) {
     Build
       .getLastBuildNumber()
+      .then(res.jobRunner.add)
       .then(function (result) {
-        return res.jobRunner.add(result);
-      })
-      .then(function () {
         res.io.emit('queueStoreUpdate');
-        res.status(200).json({});
+        res.status(200).json(result);
       })
-      .catch(function (err) {
-        console.error(err);
-      });
+      .catch(next);
   });
 
 router
   .route('/:buildNum')
-  .get(function (req, res) {
+  .get(function (req, res, next) {
     Build
       .getBuildById(req.params['buildNum'])
-      .then(function (result) {
-        res.json(result);
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
+      .then(res.json)
+      .catch(next);
   })
 
 module.exports = router;

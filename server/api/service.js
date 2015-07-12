@@ -9,12 +9,8 @@ router
   .post(auth, function (req, res, next) {
     ApiKey
       .genKey(req.body.name)
-      .then(function (result) {
-        res.json(result);
-      })
-      .catch(function (err) {
-        res.json(err).status(500);
-      });
+      .then(res.json)
+      .catch(next);
   });
 
 module.exports = router;

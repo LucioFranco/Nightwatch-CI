@@ -7,22 +7,23 @@ var currentlyWorking = false;
 var lastBuildNumber = -1;
 var buildScheduled = false;
 var config = {};
+var winston = require('winston');
 
-console.log('Started Job runner');
+winston.info('Started Job runner');
 
 function addBuild() {
-  console.log('last build number', lastBuildNumber);
+  winston.info('last build number', lastBuildNumber);
   lastBuildNumber += 1;
   queue.push({ buildNumber: lastBuildNumber, inProgress: false, started_at: new Date() });
   buildScheduled = false;
   startBuild();
-  process.send({ type: 'newBuild' });
+  process.send({ type: 'newBuild', build: currentBuild });
 }
 
 function listenAndStartBuild() {
   currentlyWorking = false;
   if (lastBuildNumber > 0 && !buildScheduled) {
-    console.log('adding build');
+    winston.info('adding build');
     buildScheduled = true;
     setTimeout(addBuild, config.repeat || 1200000);
   }
@@ -33,7 +34,7 @@ function startBuild() {
     currentlyWorking = true;
     queue.inProgress = true;
     var build = currentBuild = queue[0];
-    console.log('Build #' + currentBuild.buildNumber + ' has started');
+    winston.info('Build #' + currentBuild.buildNumber + ' has started');
     process.send({ type: 'preBuild', info: currentBuild });
     process.on('message', function (msg) {
       if (msg.type === 'donePreBuild') {

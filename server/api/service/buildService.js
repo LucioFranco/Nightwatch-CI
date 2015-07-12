@@ -5,20 +5,10 @@ var self = module.exports = {
   getAllBuilds: function () {
     return when.promise(function (resolve, reject, notify) {
       Build
-        .find({}, function (err, res) {
-          if (err) {
-            console.log('mongoose error', err);
-            reject(err);
-          }
-          else resolve(res);
-        })
-        //.sort('buildNumber')
-        /*
+        .find({})
+        .sort('buildNumber')
         .exec()
-        .then(function(result) {
-          resolve(result);
-        });
-        */
+        .then(resolve, reject);
     });
   },
   getBuildById: function (buildNum) {
@@ -26,9 +16,7 @@ var self = module.exports = {
       Build
         .findOne({ buildNumber: buildNum })
         .exec()
-        .then(function(result) {
-          resolve(result);
-        });
+        .then(resolve, reject);
     });
   },
   getLastBuildNumber: function () {
@@ -58,9 +46,7 @@ var self = module.exports = {
       }
 
       Build
-        .create(doc, function () {
-          resolve();
-        });
+        .create(doc, resolve);
     });
   },
   finished: function (io) {

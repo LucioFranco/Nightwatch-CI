@@ -54,7 +54,7 @@ var self = module.exports = {
           if (!result)
             resolve();
           else
-            reject({ status: 401, msg: 'User already exists' });
+            reject({ status: 401, msg: 'User doesn\'t exist' });
         });
     });
   },
@@ -70,7 +70,7 @@ var self = module.exports = {
           return bcrypt.hash(body.password, 10);
         })
         .then(function (result) {
-          User
+          return User
             .create({
               firstname: body.firstname,
               lastname: body.lastname,
@@ -78,25 +78,18 @@ var self = module.exports = {
               password: result,
               email: body.email,
               admin: admin
-            },
-            function (err) {
-              if (err) reject(err);
-              resolve();
             })
+            .exec()
         })
-        .catch(function (err) {
-          reject(err);
-        })
+        .then(resolve, reject);
     });
   },
   getAllUsers: function () {
     return when.promise(function (resolve, reject) {
       User
         .find({})
-        .exec(function (err, res) {
-            if (err) reject(err);
-            resolve(res);
-        });
+        .exec()
+        .then(resolve, reject);
     });
   }
 };
