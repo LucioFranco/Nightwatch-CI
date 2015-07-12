@@ -9,8 +9,8 @@ config =
 
 http = request app.init config
 
-describe '', ->
-  it '', ->
+describe 'NIGHTWATCH CI API', ->
+  it 'AUTH CHECK SHOULD 401', ->
     http
       .get '/auth/check'
       .expect 401

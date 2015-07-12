@@ -1,5 +1,5 @@
 var when = require('when');
-var Build = require('../model/build');
+var Build = require('../model/Build');
 
 var self = module.exports = {
   getAllBuilds: function () {
