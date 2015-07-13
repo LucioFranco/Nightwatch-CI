@@ -6,6 +6,8 @@ module.exports = ->
     log_level: 'warn'
     noCompile: true
     createAdmin: true
+    jobRunner:
+      silent: true
 
   if !process.env.TRAVIS
     config.jobRunner =
