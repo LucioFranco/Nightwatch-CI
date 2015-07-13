@@ -1,5 +1,5 @@
 {
-  "name": "Nightwatch-CI",
+  "name": "nightwatchci",
   "version": "0.1.0",
   "description": "Simple nightwatch Continuous Integration tool",
   "main": "index.js",
@@ -76,6 +76,6 @@
     "name": "Lucio Franco",
     "email": "lucio.franco@du.edu",
     "url": "http://luciofranco.com"
-  }
+  },
   "license": "GPL-2.0"
 }

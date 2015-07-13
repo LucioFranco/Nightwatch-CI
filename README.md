@@ -1,26 +1,26 @@
-#Nightwatch Continuous Integration
+# Nightwatch Continuous Integration
 
 ![dependecies](https://david-dm.org/LucioFranco/nightwatch-ci.svg)
 
-##Introduction
+## Introduction
 
 Nightwatch CI is a realtime continuous integration platform for your [nightwatchjs](https://github.com/nightwatchjs/nightwatch) test suite.
 
 >Notice: *this project is still in heavy development and may still have bugs. I am working hard to add tests to make this project more stable*
 
-##How to install
+## How to install
 
 To install the CLI verseion just run:
 
 ```
-npm install -g nightwatch-ci
+npm install -g nightwatchci
 nightwatch-ci -c path/to/config
 ```
 
 In most cases you will want to customize the continuous integration suite. For this case you can require the module.
 
 ```
-var app = require('../index.js');
+var app = require('nightwatchci');
 var path = require('path');
 
 var config = {
@@ -79,5 +79,20 @@ Once you have the webpage open you will not see a start button and you can not r
 
 Now that you have an account you can go to the home page and start builds. This should start a nightwatch build.
 
-##Config Options
+## Config Options
 Coming soon!
+
+## Tests
+
+```
+  npm test
+```
+
+## Contributing
+
+In lieu of a formal styleguide, take care to maintain the existing coding style.
+Add unit tests for any new or changed functionality. Lint and test your code.
+
+## Release History
+
+* 0.1.0 Initial release
