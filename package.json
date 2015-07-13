@@ -1,6 +1,6 @@
 {
   "name": "Nightwatch-CI",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simple nightwatch Continuous Integration tool",
   "main": "index.js",
   "dependencies": {
@@ -61,6 +61,10 @@
     "start": "./bin/runner",
     "dev": "node ./bin/dev"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/LucioFranco/Nightwatch-CI.git"
+  },
   "keywords": [
     "Nightwatch",
     "Continuous Integration"
@@ -68,6 +72,10 @@
   "bin": {
     "nightwatch-ci": "./bin/runner"
   },
-  "author": "Lucio Franco",
-  "license": "GPL"
+  "author": {
+    "name": "Lucio Franco",
+    "email": "lucio.franco@du.edu",
+    "url": "http://luciofranco.com"
+  }
+  "license": "GPL-2.0"
 }
