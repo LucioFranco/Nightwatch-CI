@@ -81,9 +81,8 @@ process.on('message', function (msg) {
     process.send({ type: 'buildQueue', results: buildQueueList()});
   else if (msg.type === 'config') {
     config = msg.config;
-    //silent = msg.config.silent;
-    //if (silent)
-    //  winston.level = 'warn'
+    if (config.silent)
+      winston.level = 'warn'
     winston.info('JobRunner configured and starting...');
   }
 });

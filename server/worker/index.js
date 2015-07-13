@@ -32,6 +32,7 @@ var workers = {
   startJobRunner: function (config, io, buildDone) {
     var options = {};
 
+    console.log(config);
     if (config.silent)
       options = {
         env: {
