@@ -40,7 +40,7 @@ module.exports = function (config) {
       res.status(err);
     else {
       winston.error('[Error]', err.stack || err.msg || err.message);
-      res.status(err.status || err.code).send('[Error] ' + (err.stack || err.msg || err.message));
+      res.status(err.status || err.code || 500).send('[Error] ' + (err.stack || err.msg || err.message || err.json));
     }
   });
 

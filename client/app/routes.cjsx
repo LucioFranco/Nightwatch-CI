@@ -1,5 +1,5 @@
 React = require 'react'
-{ DefaultRoute, Route, RouteHandler } = require 'react-router'
+{ DefaultRoute, Route, RouteHandler, NotFoundRoute } = require 'react-router'
 
 Login = require './components/auth/login.cjsx'
 Dashboard = require './components/dashboard/dashboard.cjsx'
@@ -9,6 +9,7 @@ CreateUser = require './components/admin/create_user.cjsx'
 GenKey = require './components/admin/generate_api_key.cjsx'
 Team = require './components/team/team.cjsx'
 BuildInfo = require './components/builds/build_info.cjsx'
+NotFound = require './components/common/not_found.cjsx'
 
 module.exports = (app) ->
     <Route name="app" path="/" handler={app}>
@@ -21,4 +22,5 @@ module.exports = (app) ->
         <Route name="create" handler={CreateUser} />
         <Route name="genkey" handler={GenKey} />
       </Route>
+      <NotFoundRoute handle={NotFound} />
     </Route>

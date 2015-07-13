@@ -11,7 +11,7 @@ var self = module.exports = {
         .then(resolve, reject);
     });
   },
-  getBuildById: function (buildNum) {
+  getBuildByBuildNum: function (buildNum) {
     return when.promise(function (resolve, reject) {
       Build
         .findOne({ buildNumber: buildNum })

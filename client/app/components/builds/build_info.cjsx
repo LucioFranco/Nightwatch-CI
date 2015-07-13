@@ -1,8 +1,10 @@
 React = require 'react'
-{ ListGroup, ListGroupItem, Glyphicon, Input } = require 'react-bootstrap'
+{ Input } = require 'react-bootstrap'
 _ = require 'lodash'
 
 BuildActions = require '../../actions/BuildActions.coffee'
+
+SuiteList = require './suite_list.cjsx'
 
 BuildInfo = React.createClass
   getInitialState: ->
@@ -12,55 +14,39 @@ BuildInfo = React.createClass
         @setState
           loading: false
           output: JSON.parse result.output
-      .catch (err) ->
+      .catch (err) =>
         console.log err
+        @setState err: err
     loading: true
     onlyFailed: false
     output: {}
 
-  renderTestcases: (module) ->
-    testcases = []
-    _.forIn module.completed, (e, key) ->
-      if e.failed > 0
-        testcases.push <p className="testcase"><Glyphicon glyph="remove" /> #{key}</p>
-        _.each e.assertions, (e) ->
-          testcases.push(<p className="assertion">{e.message + ' ' + e.failure}</p>) unless !e.failure
-      else if !@state?.onlyFailed
-        testcases.push <p className="testcase"><Glyphicon glyph="ok" /> #{key}</p>
-    testcases
-
-  renderModule: (module, moduleName) ->
-    if module.failures > 0
-      <ListGroupItem bsStyle='danger' header={moduleName}>{@renderTestcases(module)}</ListGroupItem>
-    else
-      <ListGroupItem bsStyle='success' header={moduleName}>{@renderTestcases(module)}</ListGroupItem>
-
-  renderOutput: ->
-    modules = []
-    _.forIn @state.output.modules, (e, key) =>
-      modules.push @renderModule e, key
-    modules
-
   renderBody: ->
-    if @state.loading
+    if @state.err
+      <div>
+        <br />
+        <h4 className="text-center">Build Not Found</h4>
+      </div>
+    else if @state.loading
       <div>
         <br />
         <h4 className="text-center">Loading...</h4>
       </div>
     else
       <div>
-        <ListGroup>
-          {@renderOutput()}
-        </ListGroup>
+        <Input className="text-center" type="checkbox" label="Show only failed tests" onChange={@filterFailures} />
+        <SuiteList modules={@state.output.modules} onlyFailed={@state?.onlyFailed} />
       </div>
 
   filterFailures: ->
-    @setState onlyFailed: true
+    if @state?.onlyFailed
+      @setState onlyFailed: false
+    else
+      @setState onlyFailed: true
 
   render: ->
     <div>
       <h1 className="text-center">Build #{@props.params?.buildNum}</h1>
-      <Input type="radio" label="Show only failed tests" onChange={@filterFailures} />
       {@renderBody()}
     </div>
 

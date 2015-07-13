@@ -10,7 +10,7 @@ BuildActions.getBuild.listenAndPromise (buildNum) ->
     request
       .get Util.baseUrl + '/api/build/' + buildNum
       .set 'Content-Type', 'application/json'
-      .set Util.auth_header()
+      #.set Util.auth_header()
       .end (err, res) ->
         reject err if err
         resolve res.body

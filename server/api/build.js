@@ -2,7 +2,8 @@ var express = require('express');
 var router  = express.Router();
 var _       = require('lodash');
 var Build   = require('./service/buildService');
-var auth = require('../auth').jwt;
+var auth    = require('../auth').jwt;
+var helper  = require('../helper');
 
 router
   .get('/', function (req, res, next) {
@@ -43,9 +44,14 @@ router
   .route('/:buildNum')
   .get(function (req, res, next) {
     Build
-      .getBuildById(req.params['buildNum'])
-      .then(res.json)
-      .catch(next);
+      .getBuildByBuildNum(req.params['buildNum'])
+      .then(function (result) {
+        if (!result)
+          helper.err(next, 404)({ msg: 'Cannont find' });
+        else
+          helper.json(res)(result);
+      })
+      .catch(helper.err(next));
   })
 
 module.exports = router;
