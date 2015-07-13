@@ -15,7 +15,6 @@ Team = React.createClass
     team
 
   render: ->
-    console.log @state.team
     <div className="container">
       <h1>Team</h1>
       <ListGroup>

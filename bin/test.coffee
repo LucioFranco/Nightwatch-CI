@@ -1,5 +1,6 @@
 module.exports = ->
   app = require '../index.js'
+  path = require 'path'
 
   config =
     log_level: 'warn'
@@ -15,5 +16,6 @@ module.exports = ->
             '-e',
             'chrome'
           ]
+        testPath: path.join(process.cwd(), 'test/nightwatch')
 
   app.init config

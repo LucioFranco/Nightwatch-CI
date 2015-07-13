@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 var argv = require('minimist')(process.argv.slice(2));
 var app = require('../index.js');
+var path = require('path');
 
 var config;
 
@@ -12,12 +13,12 @@ if (argv.c || argv.config) {
   config = {
     createAdmin: argv.createAdmin,
     dev: argv.dev,
-    mongoUrl: argv.m || argv.mongo,
+    mongoUri: argv.m || argv.mongo,
     jobRunner: {
       repeat: 900000,
       nightwatchConfig: {
         args: ['--group'],
-        testPath: process.cwd()
+        testPath: path.join(process.cwd(), 'test/nightwatch')
       }
     }
   }

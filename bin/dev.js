@@ -14,7 +14,7 @@ var config = {
         '-e',
         'chrome'
       ],
-      testPath: path.join(process.cwd(), 'nightwatchtest')
+      testPath: path.join(process.cwd(), 'test/nightwatch')
     },
     before: function (info, done) {
       console.log('before', info);

@@ -12,7 +12,7 @@ var paths = {
 var defaultConfig = {
   createAdmin: false,
   dev: false,
-  mongoUrl: 'mongodb://localhost/nightwatch-ci',
+  mongoUri: 'mongodb://localhost:27017/nightwatch-ci',
   jobRunner: {
     repeat: false,
     nightwatchConfig: {
@@ -25,7 +25,6 @@ var defaultConfig = {
 module.exports = {
   init: function (config) {
     config = _.merge(defaultConfig, config);
-    console.log(config);
     app = require('./server/app.js')(config);
     if (config.createAdmin) {
       var again = true;

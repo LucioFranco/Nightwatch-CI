@@ -14,7 +14,6 @@ GenKey = React.createClass
     ServiceActions
       .genKey.triggerPromise(res.name)
       .then (result) =>
-        console.log result
         @setState api_key: result.api_key
   render: ->
     console.log @state
