@@ -1,6 +1,6 @@
 {
   "name": "nightwatchci",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple nightwatch Continuous Integration tool",
   "main": "index.js",
   "dependencies": {
@@ -62,8 +62,8 @@
     "dev": "node ./bin/dev"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/LucioFranco/Nightwatch-CI.git"
+    "type": "git",
+    "url": "https://github.com/LucioFranco/Nightwatch-CI.git"
   },
   "keywords": [
     "Nightwatch",
