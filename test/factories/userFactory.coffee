@@ -1,5 +1,6 @@
-Factory = require 'rosie'
+rosie = require 'rosie'
 faker = require 'faker'
+Factory = rosie.Factory
 
 Factory
   .define 'user'

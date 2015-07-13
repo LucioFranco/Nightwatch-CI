@@ -70,18 +70,21 @@ var self = module.exports = {
           return bcrypt.hash(body.password, 10);
         })
         .then(function (result) {
-          return User
-            .create({
-              firstname: body.firstname,
-              lastname: body.lastname,
-              username: body.username,
-              password: result,
-              email: body.email,
-              admin: admin
-            })
-            .exec()
+          return {
+            firstname: body.firstname,
+            lastname: body.lastname,
+            username: body.username,
+            password: result,
+            email: body.email,
+            admin: admin
+          }
         })
-        .then(resolve, reject);
+        .then(function (result) {
+          User
+            .create(result);
+          return result
+        })
+        .then(resolve);
     });
   },
   getAllUsers: function () {

@@ -1,20 +1,15 @@
-request = require 'supertest-as-promised'
-whenPro = require 'when'
-promisfy = request(whenPro.Promise)
-app = require '../index.js'
+request = require('supertest-as-promised')(require('when').Promise)
 should = require 'should'
+server = require '../bin/test'
+_ = require 'lodash'
+http = request server()
 
 UserFactory = require './factories/userFactory'
-
-config =
-  log_level: 'warn'
-  noCompile: true
-  createAdmin: true
-
-http = request app.init config
+user = UserFactory.build 'user', admin: true
 
 describe 'NIGHTWATCH CI API', ->
-  user = UserFactory.build 'user', admin: true
+  beforeEach ->
+
   it 'AUTH CHECK SHOULD 401', ->
     http
       .get '/auth/check'
@@ -29,8 +24,26 @@ describe 'NIGHTWATCH CI API', ->
 
   it 'CREATE ADMIN', ->
     http
-      .post '/auth/login'
+      .post '/auth/create/admin/once'
       .send user
+      .expect 302
       .then (res) ->
         res.body.should.be.ok
-        console.log res.body
+
+  it 'LOGIN WITH ADMIN', ->
+    http
+      .post '/auth/login'
+      .send _.pick user, ['username', 'password']
+      .expect 200
+      .then (res) ->
+        res.body.should.be.ok
+        res.body.should.have.property 'auth_token'
+        user.auth_header = Authorization: 'JWT ' + res.body.auth_token
+  it 'AUTH CHECK SHOULD 200', ->
+    http
+      .get '/auth/check'
+      .set user.auth_header
+      .expect 200
+      .then (res) ->
+        res.body.should.be.ok
+        _.omit(res.body, ['_id', 'timestamp']).should.containEql _.omit user, ['auth_header', 'password']

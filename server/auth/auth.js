@@ -18,9 +18,7 @@ router
       .then(function () {
         res.redirect('/');
       })
-      .catch(function (err) {
-        next(err);
-      });
+      .catch(next);
   });
 
 router
