@@ -1,6 +1,6 @@
 # Nightwatch Continuous Integration
 
-![dependecies](https://david-dm.org/LucioFranco/nightwatch-ci.svg)
+![npm](https://img.shields.io/npm/v/nightwatchci.svg) ![[Build Status](https://travis-ci.org/LucioFranco/Nightwatch-CI.svg)](https://travis-ci.org/LucioFranco/Nightwatch-CI) ![dependecies](https://david-dm.org/LucioFranco/nightwatch-ci.svg)
 
 ## Introduction
 
