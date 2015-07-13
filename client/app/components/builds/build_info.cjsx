@@ -1,5 +1,6 @@
 React = require 'react'
 { Input } = require 'react-bootstrap'
+moment = require 'moment-precise-range'
 _ = require 'lodash'
 
 BuildActions = require '../../actions/BuildActions.coffee'
@@ -13,6 +14,7 @@ BuildInfo = React.createClass
       .then (result) =>
         @setState
           loading: false
+          build: _.omit result, 'output'
           output: JSON.parse result.output
       .catch (err) =>
         console.log err
@@ -20,6 +22,13 @@ BuildInfo = React.createClass
     loading: true
     onlyFailed: false
     output: {}
+
+  renderStats: ->
+    <div className="text-center">
+      <p>Length: {moment.preciseDiff(@state.build.started_at, @state.build.finished_at, { day:true, hour: true, minute: true, fixed_second: true })}</p>
+      <p> Passed: {@state.output.passed} / {@state.output.assertions}</p>
+      <Input type="checkbox" label="Show only failed tests" onChange={@filterFailures} />
+    </div>
 
   renderBody: ->
     if @state.err
@@ -34,7 +43,7 @@ BuildInfo = React.createClass
       </div>
     else
       <div>
-        <Input className="text-center" type="checkbox" label="Show only failed tests" onChange={@filterFailures} />
+        {@renderStats()}
         <SuiteList modules={@state.output.modules} onlyFailed={@state?.onlyFailed} />
       </div>
 
