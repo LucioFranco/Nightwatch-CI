@@ -7,11 +7,13 @@ module.exports = ->
     createAdmin: true
 
   if !process.env.TRAVIS
-    config.jobRunner = nightwatchConfig:
-                        args:
-                          [
-                            '-e',
-                            'chrome'
-                          ]
+    config.jobRunner =
+      silent: true
+      nightwatchConfig:
+        args:
+          [
+            '-e',
+            'chrome'
+          ]
 
   app.init config

@@ -2,14 +2,16 @@ request = require('supertest-as-promised')(require('when').Promise)
 should = require 'should'
 server = require '../bin/test'
 _ = require 'lodash'
+async = require 'async'
 http = request server()
 
 UserFactory = require './factories/userFactory'
 user = UserFactory.build 'user', admin: true
 
-describe 'NIGHTWATCH CI API', ->
-  beforeEach ->
+lastbuild = 0
 
+
+describe 'NIGHTWATCH CI API', ->
   it 'AUTH CHECK SHOULD 401', ->
     http
       .get '/auth/check'
@@ -20,7 +22,8 @@ describe 'NIGHTWATCH CI API', ->
       .get '/api/build'
       .expect 200
       .then (res) ->
-        res.body.should.be.ok
+        res.body.should.be.Array
+        lastbuild = _.last res.body
 
   it 'CREATE ADMIN', ->
     http
@@ -36,14 +39,34 @@ describe 'NIGHTWATCH CI API', ->
       .send _.pick user, ['username', 'password']
       .expect 200
       .then (res) ->
-        res.body.should.be.ok
+        res.body.should.be.Object
         res.body.should.have.property 'auth_token'
         user.auth_header = Authorization: 'JWT ' + res.body.auth_token
+
   it 'AUTH CHECK SHOULD 200', ->
     http
       .get '/auth/check'
       .set user.auth_header
       .expect 200
       .then (res) ->
-        res.body.should.be.ok
+        res.body.should.be.Object
         _.omit(res.body, ['_id', 'timestamp']).should.containEql _.omit user, ['auth_header', 'password']
+
+  it 'START BUILD', ->
+    @timeout 20000000
+    http
+      .post '/api/build/start'
+      .set user.auth_header
+      .expect 200
+      .then (res) ->
+        res.body.should.be.ok
+      .delay 5000
+
+  it 'CHECK BUILD', ->
+    http
+      .get '/api/build/queue'
+      .expect 200
+      .then (res) ->
+        res.body.should.be.Array
+        res.body[0].should.have.properties ['buildNumber', 'inProgress']
+        res.body[0].inProgress.should.be.true

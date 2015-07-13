@@ -1,9 +1,10 @@
 var Nightwatch = require('nightwatch');
 
 process.on('err', function (data) {
-  process.send(data)
-})
-process.send(process.argv[0])
+  process.send(data);
+});
+
+process.send(process.argv[0]);
 
 try {
   Nightwatch.cli(function (argv) {

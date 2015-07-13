@@ -9,8 +9,6 @@ var buildScheduled = false;
 var config = {};
 var winston = require('winston');
 
-winston.info('Started Job runner');
-
 function addBuild() {
   winston.info('last build number', lastBuildNumber);
   lastBuildNumber += 1;
@@ -81,8 +79,12 @@ process.on('message', function (msg) {
     process.send({ type: 'currentBuild', result: currentBuild });
   else if (msg.type === 'buildQueue')
     process.send({ type: 'buildQueue', results: buildQueueList()});
-  else if (msg.type === 'config')
+  else if (msg.type === 'config') {
     config = msg.config;
+    if (config.silent)
+      winston.level = 'warn'
+    winston.info('JobRunner configured and starting...');
+  }
 });
 
 listenAndStartBuild();

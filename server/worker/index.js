@@ -30,7 +30,16 @@ var workers = {
     });
   },
   startJobRunner: function (config, io, buildDone) {
-    var runner = cp.fork(__dirname + '/jobRunner.js');
+    var options = {};
+
+    if (config.silent)
+      options = {
+        env: {
+          silent: true
+        }
+      }
+
+    var runner = cp.fork(__dirname + '/jobRunner.js', [], {  });
     runner._maxListeners = 25;
     runner.on('message', function (msg) {
       if (msg.type === 'buildCompleted') {
