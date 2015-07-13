@@ -54,14 +54,7 @@ module.exports = {
   use: function (middleware) {
     app.use(middleware);
   },
-  register: function (plugin) {
-    var basicPlugin = {
-      after: function (result) {
-        return;
-      }
-    }
-  },
-  start: function () {
+  start: function (port) {
     app.get('/*', function (req, res) {
       if (multiStringMatch(req.originalUrl, [ '.woff2', '.woff', '.ttf', '.js', '.ico' ]))
         res.sendFile(path.join(paths.static, getFinalEndpoint(req.originalUrl)))
@@ -69,7 +62,7 @@ module.exports = {
         res.sendFile(paths.index);
     });
 
-    app.server.listen(process.env.BACKEND_PORT || 3000);
+    app.server.listen(process.env.BACKEND_PORT || port || 3000);
   }
 }
 
