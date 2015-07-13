@@ -9,8 +9,23 @@ var paths = {
   static: __dirname + '/client/static'
 };
 
+var defaultConfig = {
+  createAdmin: false,
+  dev: false,
+  mongoUrl: 'mongodb://localhost/nightwatch-ci',
+  jobRunner: {
+    repeat: false,
+    nightwatchConfig: {
+      args: [],
+      testPath: process.cwd()
+    }
+  }
+}
+
 module.exports = {
   init: function (config) {
+    config = _.merge(defaultConfig, config);
+    console.log(config);
     app = require('./server/app.js')(config);
     if (config.createAdmin) {
       var again = true;

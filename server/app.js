@@ -16,7 +16,7 @@ var worker  = require('./worker');
 var winston = require('winston');
 
 module.exports = function (config) {
-  var db = mongoose.connect(config.mongoUri || process.env.mongodb_uri || 'mongodb://localhost/nightwatch');
+  var db = mongoose.connect(process.env.mongodb_uri || config.mongoUri);
   var jobRunner = worker.startJobRunner(config.jobRunner, io,Build.finished(io));
 
   app.use(bodyParser.urlencoded({extended: false}));
