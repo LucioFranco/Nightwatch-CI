@@ -1,5 +1,5 @@
 var path = require('path');
-
+console.log(path.join(__dirname, 'node_modules'));
 module.exports = function (env) {
 	if (!env)
 		env = false;
