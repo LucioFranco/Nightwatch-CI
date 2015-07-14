@@ -13,8 +13,10 @@ function addBuild() {
   winston.info('last build number', lastBuildNumber);
   lastBuildNumber += 1;
   queue.push({ buildNumber: lastBuildNumber, inProgress: false, started_at: new Date() });
+  console.log(queue);
   buildScheduled = false;
-  startBuild();
+  if (!currentlyWorking)
+    startBuild();
   process.send({ type: 'newBuild', build: currentBuild });
 }
 
@@ -30,16 +32,14 @@ function listenAndStartBuild() {
 function startBuild() {
   if (!currentlyWorking) {
     currentlyWorking = true;
-    queue.inProgress = true;
+    queue[0].inProgress = true;
     var build = currentBuild = queue[0];
     winston.info('Build #' + currentBuild.buildNumber + ' has started');
     process.send({ type: 'preBuild', info: currentBuild });
     process.on('message', function (msg) {
       if (msg.type === 'donePreBuild') {
         //TODO clean up this mess
-        process.removeListener('message', function (data) {
-          return;
-        });
+        process._events.message.pop()
         worker
           .runNightwatch(build.config || config.nightwatchConfig, build.buildNumber)
           .then(function (result) {

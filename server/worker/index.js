@@ -52,6 +52,7 @@ var workers = {
       else if (msg.type === 'preBuild')
         if (config.before) {
           var done = function () {
+            console.log('called DONE DONE DONE');
             runner.send({ type: 'donePreBuild' });
           };
           config.before(msg.info, done);
