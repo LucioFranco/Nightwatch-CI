@@ -11,7 +11,7 @@ CurrentBuilds = React.createClass
     _.each @state?.queueList, (e) ->
       builds.push <BuildPanel key={e._id} build={e} />
     if builds.length == 0
-      builds.push <h4 className="text-center current-build-text">No Current Builds</h4>
+      builds.push <h4 className="text-center panel-body-text">No Current Builds</h4>
     builds
 
   render: ->
