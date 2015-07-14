@@ -71,10 +71,16 @@ function buildQueueList() {
 process.on('message', function (msg) {
   if (msg.type === 'newBuild') {
     lastBuildNumber = msg.buildNumber + queue.length;
-    queue.push({ buildNumber: msg.buildNumber + queue.length, inProgress: false, started_at: new Date(), config: msg.config });
+    var newBuild = {
+      buildNumber: msg.buildNumber + queue.length,
+      inProgress: false,
+      started_at: new Date(),
+      config: msg.config
+    };
+    queue.push(newBuild);
     if (!currentlyWorking)
       startBuild();
-    process.send({ type: 'newBuild' });
+    process.send({ type: 'newBuild',  build: newBuild });
   }else if (msg.type === 'currentBuild')
     process.send({ type: 'currentBuild', result: currentBuild });
   else if (msg.type === 'buildQueue')

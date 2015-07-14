@@ -70,3 +70,26 @@ describe 'NIGHTWATCH CI API', ->
         res.body.should.be.Array
         res.body[0].should.have.properties ['buildNumber', 'inProgress']
         res.body[0].inProgress.should.be.true
+
+  it 'ADD NEW BUILD WITH CONFIG', ->
+    @timeout 20000000
+    config =
+      args: [ '--group', 'test' ]
+    http
+      .post '/api/build/start'
+      .set user.auth_header
+      .send config
+      .expect 200
+      .then (res) ->
+        res.body.should.be.ok
+      .delay 5000
+
+  it 'CHECK NEW BUILD CONFIG', ->
+    http
+      .get '/api/build/queue'
+      .expect 200
+      .then (res) ->
+        res.body.should.be.Array
+        res.body.length.should.eql 2
+        res.body[0].inProgress.should.be.true
+        res.body[1].inProgress.should.be.true

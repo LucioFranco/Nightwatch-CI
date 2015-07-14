@@ -10,21 +10,20 @@ router
     Build
       .getAllBuilds()
       .then(function (result) {
-        res.json(_.map(result, function (e) {
+        return _.map(result, function (e) {
           e = e.toObject();
           e.output = _.omit(JSON.parse(e.output), ['modules'])
           return e;
-        }));
+        });
       })
+      .then(helper.json(res, 200))
       .catch(next);
   });
 
 router
   .get('/queue', function (req, res, next) {
     req.jobRunner.getBuildQueue()
-      .then(function (result) {
-        res.json(result);
-      })
+      .then(helper.json(res, 200))
       .catch(next);
   });
 
@@ -38,8 +37,9 @@ router
       .then(req.jobRunner.add)
       .then(function (result) {
         req.io.emit('queueStoreUpdate');
-        res.status(200).json(result);
+        return result;
       })
+      .then(helper.json(res, 200))
       .catch(next);
   });
 
