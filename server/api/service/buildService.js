@@ -31,7 +31,7 @@ var self = module.exports = {
             number = result[result.length - 1].buildNumber + 1;
           else
             number = 1;
-          resolve(number);
+          resolve({ buildNumber: number });
         });
     });
   },

@@ -7,7 +7,7 @@ var bcrypt = require('bcrypt-as-promised');
 var passport = require('passport');
 
 router
-  .post('/login', passport.authenticate('local', { session: false }),function (req, res) {
+  .post('/login', passport.authenticate('local', { session: false }), function (req, res) {
     res.json(req.user);
   });
 

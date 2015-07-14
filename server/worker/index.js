@@ -60,9 +60,9 @@ var workers = {
     runner.send({ type: 'config', config: config });
 
     return  {
-      add: function (buildNumber) {
+      add: function (buildInfo) {
         return when.promise(function (resolve, reject) {
-          runner.send({ type: 'newBuild', buildNumber: buildNumber });
+          runner.send({ type: 'newBuild', buildNumber: buildInfo.buildNumber, config: buildInfo.config });
           runner.on('message', function (msg) {
             if (msg.type === 'newBuild')
               resolve(msg.build);

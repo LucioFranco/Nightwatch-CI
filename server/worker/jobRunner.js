@@ -41,7 +41,7 @@ function startBuild() {
           return;
         });
         worker
-          .runNightwatch(config.nightwatchConfig, build.buildNumber)
+          .runNightwatch(build.config || config.nightwatchConfig, build.buildNumber)
           .then(function (result) {
             currentlyWorking = false;
             process.send({type: 'buildCompleted', result: _.merge(result, {finished_at: new Date(), started_at: currentBuild.started_at})});
@@ -71,7 +71,7 @@ function buildQueueList() {
 process.on('message', function (msg) {
   if (msg.type === 'newBuild') {
     lastBuildNumber = msg.buildNumber + queue.length;
-    queue.push({ buildNumber: msg.buildNumber + queue.length, inProgress: false, started_at: new Date() });
+    queue.push({ buildNumber: msg.buildNumber + queue.length, inProgress: false, started_at: new Date(), config: msg.config });
     if (!currentlyWorking)
       startBuild();
     process.send({ type: 'newBuild' });

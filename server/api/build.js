@@ -21,7 +21,7 @@ router
 
 router
   .get('/queue', function (req, res, next) {
-    res.jobRunner.getBuildQueue()
+    req.jobRunner.getBuildQueue()
       .then(function (result) {
         res.json(result);
       })
@@ -32,9 +32,12 @@ router
   .post('/start', auth, function (req, res, next) {
     Build
       .getLastBuildNumber()
-      .then(res.jobRunner.add)
       .then(function (result) {
-        res.io.emit('queueStoreUpdate');
+        return _.merge(result, { config: _.merge(req.config.jobRunner.nightwatchConfig, res.body) });
+      })
+      .then(req.jobRunner.add)
+      .then(function (result) {
+        req.io.emit('queueStoreUpdate');
         res.status(200).json(result);
       })
       .catch(next);

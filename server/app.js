@@ -17,14 +17,15 @@ var winston = require('winston');
 
 module.exports = function (config) {
   var db = mongoose.connect(process.env.mongodb_uri || config.mongoUri);
-  var jobRunner = worker.startJobRunner(config.jobRunner, io,Build.finished(io));
+  var jobRunner = worker.startJobRunner(config.jobRunner, io, Build.finished(io));
 
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
   app.use(auth.init());
   app.use(function (req, res, next) {
-    res.io = io;
-    res.jobRunner = jobRunner;
+    req.io = io;
+    req.jobRunner = jobRunner;
+    req.config = config;
 
     if (config.log_level)
       winston.level = config.log_level;
