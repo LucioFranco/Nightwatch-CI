@@ -6,7 +6,7 @@ describe 'NIGHTWATCH TEST WORKER', ->
   it 'FULL RUN OF NIGHTWATCH', ->
     @timeout 100000000
     config =
-      args: []
+      args: ['-c', path.join(__dirname, 'nightwatch/nightwatch.travis.json')]
       testPath: path.join(__dirname, 'nightwatch')
     #if process.env.TRAVIS then config.args = [ '-e', 'chrome' ]
     worker

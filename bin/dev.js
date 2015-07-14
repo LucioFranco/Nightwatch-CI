@@ -7,7 +7,7 @@ var config = {
   noCompile: true,
   createAdmin: true,
   jobRunner: {
-    repeat: 200000,
+    repeat: 20000,
     nightwatchConfig: {
       args: [
         '--group',
