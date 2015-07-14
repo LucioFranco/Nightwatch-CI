@@ -17,6 +17,9 @@ Menu = React.createClass
   getInitialState: ->
     showLogin: false
 
+  onLoginClose: ->
+    @setState showLogin: false
+
   renderAuth: ->
     if @state.user?.username
       <Nav pullRight>
@@ -25,7 +28,7 @@ Menu = React.createClass
     else
       <Nav pullRight>
         <NavItem onClick={=> @setState showLogin: true}><strong>Login</strong></NavItem>
-        {<Login /> unless !@state.showLogin}
+        {<Login onClose={@onLoginClose} /> unless !@state.showLogin}
       </Nav>
 
   render: ->

@@ -1,27 +1,21 @@
 React = require 'react/addons'
-Router = require 'react-router'
 Fromsy = require 'formsy-react'
 
-{ RouteHandler } = require 'react-router'
+#style imports
+require './login.less'
+
 { Modal } = require 'react-bootstrap'
 { Input } = require 'formsy-react-components'
-
-userStoreMixin = require '../../mixins/user_store.coffee'
 
 UserActions = require '../../actions/UserActions.coffee'
 
 Login = React.createClass
-  #mixins: [ userStoreMixin, React.addons.LinkedStateMixin, Router.Navigation ]
-
   handleSubmit: (res) ->
-    UserActions.login(res)
-
+    UserActions.login res
 
   render: ->
-    <Modal
-      onRequestHide={=>}
-    >
-        <Formsy.Form onValidSubmit={@handleSubmit} >
+    <Modal onRequestHide={@props.onClose}>
+        <Formsy.Form onValidSubmit={@handleSubmit} className="login-form" >
           <fieldset>
             <Input
               name="username"
@@ -31,6 +25,7 @@ Login = React.createClass
               placeholder="Enter username"
               required
             />
+            <br />
             <Input
               name="password"
               value=""
