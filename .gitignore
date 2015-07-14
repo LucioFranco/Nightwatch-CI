@@ -6,3 +6,4 @@ client/static/
 !client/static/index.html
 !client/static/favicon.ico
 test.config.js
+*.lck
