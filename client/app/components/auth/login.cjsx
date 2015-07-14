@@ -2,7 +2,7 @@ React = require 'react/addons'
 Fromsy = require 'formsy-react'
 
 #style imports
-require './login.less'
+require '../../style/login.less'
 
 { Modal } = require 'react-bootstrap'
 { Input } = require 'formsy-react-components'

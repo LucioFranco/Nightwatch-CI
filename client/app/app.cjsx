@@ -1,7 +1,7 @@
 React = require 'react'
 Router = require 'react-router'
 
-require './app.less'
+require './style/app.less'
 
 Header = require './components/header/header.cjsx'
 

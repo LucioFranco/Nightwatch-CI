@@ -3,6 +3,9 @@ React = require 'react'
 moment = require 'moment-precise-range'
 _ = require 'lodash'
 
+#Style import
+require '../../style/build_info.less'
+
 BuildActions = require '../../actions/BuildActions.coffee'
 
 SuiteList = require './suite_list.cjsx'
