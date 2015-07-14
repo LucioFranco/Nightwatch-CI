@@ -57,7 +57,7 @@
     "webpack-stream": "^2.0.0"
   },
   "scripts": {
-    "test": "NODE_ENV=test mocha --compilers coffee:coffee-script/register",
+    "test": "java -jar test/nightwatch/bin/selenium-server-standalone-2.45.0.jar & NODE_ENV=test mocha --compilers coffee:coffee-script/register",
     "start": "./bin/runner",
     "dev": "node ./bin/dev"
   },
