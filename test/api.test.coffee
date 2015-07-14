@@ -2,7 +2,6 @@ request = require('supertest-as-promised')(require('when').Promise)
 should = require 'should'
 server = require '../bin/test'
 _ = require 'lodash'
-async = require 'async'
 http = request server()
 
 UserFactory = require './factories/userFactory'
