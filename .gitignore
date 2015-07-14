@@ -7,3 +7,4 @@ client/static/
 !client/static/favicon.ico
 test.config.js
 *.lck
+coverage

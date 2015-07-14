@@ -44,9 +44,12 @@
     "winston": "^1.0.1"
   },
   "devDependencies": {
+    "coffee-coverage": "^0.6.2",
+    "coveralls": "^2.11.2",
     "faker": "^3.0.0",
     "gulp": "^3.8.11",
     "gulp-nodemon": "^2.0.3",
+    "istanbul": "^0.3.17",
     "mocha": "^2.2.5",
     "rosie": "^0.4.2",
     "should": "^7.0.2",
@@ -55,7 +58,7 @@
     "webpack-stream": "^2.0.0"
   },
   "scripts": {
-    "test": "java -jar test/nightwatch/bin/selenium-server-standalone-2.45.0.jar -log selenium.log & NODE_ENV=test mocha --compilers coffee:coffee-script/register && ./bin/travis_finished.sh",
+    "test": "java -jar test/nightwatch/bin/selenium-server-standalone-2.45.0.jar -log selenium.log & NODE_ENV=test mocha --compilers coffee:coffee-script/register && ./bin/travis_finished.sh --require coffee-coverage/register-istanbul",
     "start": "./bin/runner",
     "dev": "node ./bin/dev"
   },
