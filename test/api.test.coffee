@@ -53,14 +53,12 @@ describe 'NIGHTWATCH CI API', ->
         _.omit(res.body, ['_id', 'timestamp']).should.containEql _.omit user, ['auth_header', 'password']
 
   it 'START BUILD', ->
-    @timeout 20000000
     http
       .post '/api/build/start'
       .set user.auth_header
       .expect 200
       .then (res) ->
         res.body.should.be.ok
-      .delay 5000
 
   it 'CHECK BUILD', ->
     http
@@ -72,7 +70,6 @@ describe 'NIGHTWATCH CI API', ->
         res.body[0].inProgress.should.be.true
 
   it 'ADD NEW BUILD WITH CONFIG', ->
-    @timeout 20000000
     config =
       args: [ '--group', 'test' ]
     http
@@ -82,7 +79,6 @@ describe 'NIGHTWATCH CI API', ->
       .expect 200
       .then (res) ->
         res.body.should.be.ok
-      .delay 5000
 
   it 'CHECK NEW BUILD CONFIG', ->
     http
