@@ -58,7 +58,7 @@
     "webpack-stream": "^2.0.0"
   },
   "scripts": {
-    "test": "java -jar test/nightwatch/bin/selenium-server-standalone-2.45.0.jar -log selenium.log & NODE_ENV=test mocha --compilers coffee:coffee-script/register && ./bin/travis_finished.sh --require coffee-coverage/register-istanbul",
+    "test": "java -jar test/nightwatch/bin/selenium-server-standalone-2.45.0.jar -log selenium.log & NODE_ENV=test mocha --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul test && ./node_modules/.bin/istanbul report && ./bin/travis_finished.sh",
     "start": "./bin/runner",
     "dev": "node ./bin/dev"
   },
