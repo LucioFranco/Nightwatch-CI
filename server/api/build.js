@@ -16,9 +16,6 @@ router
           return e;
         });
       })
-      .then(function (result) {
-        console.log(result);
-      })
       .then(helper.json(res, 200))
       .catch(next);
   });
