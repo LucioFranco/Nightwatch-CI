@@ -8,13 +8,16 @@ var helper  = require('../helper');
 router
   .get('/', function (req, res, next) {
     Build
-      .getAllBuilds()
+      .getAllBuilds(req.query['size'])
       .then(function (result) {
         return _.map(result, function (e) {
           e = e.toObject();
           e.output = _.omit(JSON.parse(e.output), ['modules'])
           return e;
         });
+      })
+      .then(function (result) {
+        console.log(result);
       })
       .then(helper.json(res, 200))
       .catch(next);
