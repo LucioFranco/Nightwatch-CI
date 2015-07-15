@@ -7,12 +7,11 @@ BuildPanel = require '../common/build.cjsx'
 CurrentBuilds = React.createClass
   mixins: [Reflux.connect(QueueStore, 'queueList')]
   renderBuilds: ->
-    builds = []
-    _.each @state?.queueList, (e) ->
-      builds.push <BuildPanel key={e._id} build={e} />
-    if builds.length == 0
-      builds.push <h4 className="text-center panel-body-text">No Current Builds</h4>
-    builds
+    if @state?.queueList.length == 0
+      <h4 className="text-center panel-body-text">No Current Builds</h4>
+    else
+      _.map @state?.queueList, (e) ->
+        <BuildPanel key={e._id} build={e} />
 
   render: ->
     <div>
