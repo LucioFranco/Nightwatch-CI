@@ -19,6 +19,7 @@ BuildStore = Reflux.createStore
   onGetList: ->
     request
       .get Util.baseUrl + '/api/build'
+      .query size: 100
       .set 'Content-Type', 'application/json'
       .set Util.auth_header()
       .end (err, res) =>

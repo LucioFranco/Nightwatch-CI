@@ -9,7 +9,7 @@ Builds = React.createClass
 
   renderBuilds: ->
     builds = []
-    _.eachRight @state?.builds, (e) ->
+    _.each @state?.builds, (e) ->
       builds.push <BuildPanel key={e._id} build={e} />
     builds
 
