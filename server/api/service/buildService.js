@@ -2,11 +2,12 @@ var when = require('when');
 var Build = require('../model/Build');
 
 var self = module.exports = {
-  getAllBuilds: function () {
+  getAllBuilds: function (size) {
     return when.promise(function (resolve, reject, notify) {
       Build
         .find({})
-        .sort('buildNumber')
+        .sort({'buildNumber': -1})
+        .limit(size)
         .exec()
         .then(resolve, reject);
     });
