@@ -28,6 +28,13 @@ router
   });
 
 router
+  .get('/current', function (req, res, next) {
+    req.jobRunner.getCurrentBuild()
+      .then(helper.json(res, 200))
+      .catch(next);
+  });
+
+router
   .post('/start', auth, function (req, res, next) {
     Build
       .getLastBuildNumber()
