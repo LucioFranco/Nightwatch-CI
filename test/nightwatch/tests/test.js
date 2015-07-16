@@ -1,7 +1,7 @@
 module.exports = {
   before: function (browser, done) {
     browser
-      .url('http://localhost:3000');
+      .url('https://google.com');
     done();
   },
   'Test': function (browser) {

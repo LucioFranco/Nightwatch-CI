@@ -17,7 +17,7 @@ describe 'NIGHTWATCH TEST WORKER', ->
         result.buildNumber.should.eql 1
         return result.results;
       .then (result) ->
-        result.passed.should.eql 2
-        result.failed.should.eql 1
+        result.passed.should.eql 1
+        result.failed.should.eql 2
         result.tests.should.eql 3
         result.should.have.properties ['passed', 'failed', 'errors', 'skipped', 'tests', 'errmessages', 'modules']
