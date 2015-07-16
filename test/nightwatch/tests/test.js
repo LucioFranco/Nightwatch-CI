@@ -1,12 +1,13 @@
 module.exports = {
   before: function (browser, done) {
     browser
-      .url('http://google.com');
+      .url('http://localhost:3000');
     done();
   },
   'Test': function (browser) {
     browser
-      .assert.elementPresent('#hplogo')
+      .assert.elementPresent('#app')
+      .pause(3000);
       //.assert.elementPresent('.laskdfjsadljf')
   },
   after: function (browser) {
