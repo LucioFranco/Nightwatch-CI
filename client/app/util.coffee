@@ -1,6 +1,6 @@
 superagent = require 'superagent'
 module.exports =
-  baseUrl: window.location.protocol + '//' + window.location.hostname + ':3000'
+  baseUrl: window.location.origin
   auth_header: ->
     'Authorization': window.localStorage.getItem('auth_token')
   config:
