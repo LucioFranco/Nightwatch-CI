@@ -1,5 +1,6 @@
 var when = require('when');
 var Build = require('../model/Build');
+var _ = require('lodash');
 
 var self = module.exports = {
   getAllBuilds: function (size) {
@@ -34,6 +35,34 @@ var self = module.exports = {
             number = 1;
           resolve({ buildNumber: number });
         });
+    });
+  },
+  getStats: function (size) {
+    return when.promise(function (resolve, reject) {
+      self
+        .getAllBuilds(size)
+        .then(function (result) {
+          return _.map(result, function (e) {
+            return JSON.parse(e.output).modules;
+          });
+        })
+        .then(function (result) {
+          var tests = {};
+          _.each(result, function (e) {
+            _.mapKeys(e, function (e, key) {
+              if (!_.has(tests, key)) {
+                tests[key] = 0;
+              }
+
+              if (e.failures > 0) {
+                tests[key] += 1;
+              }
+            });
+          });
+          return tests;
+        })
+        .then(resolve)
+        .catch(reject);
     });
   },
   create: function (result) {

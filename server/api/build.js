@@ -35,6 +35,15 @@ router
   });
 
 router
+  .route('/stats')
+  .get(function(req, res, next) {
+    Build
+      .getStats(req.query['size'])
+      .then(helper.json(res, 200))
+      .catch(next);
+  });
+
+router
   .post('/start', auth, function (req, res, next) {
     Build
       .getLastBuildNumber()
