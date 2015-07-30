@@ -12,6 +12,7 @@ SuiteList = require './suite_list.cjsx'
 
 BuildInfo = React.createClass
   getInitialState: ->
+    onlyFailed = @props.query?.showFailed == "true"
     BuildActions
       .getBuild @props.params?.buildNum
       .then (result) =>
@@ -23,14 +24,14 @@ BuildInfo = React.createClass
         console.log err
         @setState err: err
     loading: true
-    onlyFailed: false
+    onlyFailed: onlyFailed
     output: {}
 
   renderStats: ->
     <div className="text-center">
       <p>Length: {moment.preciseDiff(@state.build.started_at, @state.build.finished_at, { day:true, hour: true, minute: true, fixed_second: true })}</p>
       <p> Passed: {@state.output.passed} / {@state.output.assertions}</p>
-      <Input type="checkbox" label="Show only failed tests" onChange={@filterFailures} />
+      <Input type="checkbox" label="Show only failed tests" value={@state.onlyFailed} onChange={@filterFailures} />
     </div>
 
   renderBody: ->

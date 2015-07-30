@@ -12,7 +12,7 @@ App = React.createClass
   render: ->
       <div>
         <Header />
-        <div className="RouteHandler container">
+        <div className="RouteHandler container-fluid">
           <RouteHandler {...@props} />
         </div>
       </div>

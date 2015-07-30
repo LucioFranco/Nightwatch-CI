@@ -36,6 +36,7 @@ Menu = React.createClass
       <Nav>
         <NavItem onClick={=> @transitionTo '/'}><Glyph glyph="th-large"/>  Dashboard</NavItem>
         <NavItem onClick={=> @transitionTo '/builds'}><Glyph glyph="warning-sign"/>  Builds</NavItem>
+        <NavItem onClick={=> @transitionTo '/stats'}><Glyph glyph="stats"/>  Stats</NavItem>
         <NavItem onClick={=> @transitionTo '/team'}><Glyph glyph="user"/> Team</NavItem>
         {<NavItem onClick={=> @transitionTo '/admin'}><Glyph glyph="asterisk"/>  Admin</NavItem> unless !@state.user?.admin}
       </Nav>
