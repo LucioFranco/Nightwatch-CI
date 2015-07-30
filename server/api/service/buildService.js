@@ -45,7 +45,6 @@ var self = module.exports = {
           var tests = {};
           _.each(result, function (build) {
             _.mapKeys(JSON.parse(build.output).modules, function (test, test_name) {
-              console.log(test_name);
               if (!_.has(tests, test_name)) {
                 tests[test_name] = [];
               }
