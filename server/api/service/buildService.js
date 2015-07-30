@@ -42,20 +42,16 @@ var self = module.exports = {
       self
         .getAllBuilds(size)
         .then(function (result) {
-          return _.map(result, function (e) {
-            return JSON.parse(e.output).modules;
-          });
-        })
-        .then(function (result) {
           var tests = {};
-          _.each(result, function (e) {
-            _.mapKeys(e, function (e, key) {
-              if (!_.has(tests, key)) {
-                tests[key] = 0;
+          _.each(result, function (build) {
+            _.mapKeys(JSON.parse(build.output).modules, function (test, test_name) {
+              console.log(test_name);
+              if (!_.has(tests, test_name)) {
+                tests[test_name] = [];
               }
 
-              if (e.failures > 0) {
-                tests[key] += 1;
+              if (test.failures > 0) {
+                tests[test_name].push(build.buildNumber);
               }
             });
           });
