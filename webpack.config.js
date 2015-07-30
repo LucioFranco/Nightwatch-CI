@@ -5,7 +5,9 @@ module.exports = function (env) {
 		env = false;
 	return {
 		resolve: {
-			root: path.join(__dirname, 'client/app')
+			modulesDirectories: ['node_modules', 'client/app'],
+			root: path.join(__dirname, 'client/app'),
+			extensions: ['', '.js', '.cjsx', '.coffee', '.less']
 		},
 		devtool: 'eval',
 		entry: path.join(__dirname, 'client/app/app.cjsx'),
