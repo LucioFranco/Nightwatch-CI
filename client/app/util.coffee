@@ -4,4 +4,4 @@ module.exports =
   auth_header: ->
     'Authorization': window.localStorage.getItem('auth_token')
   config:
-    buildLimit: 300
+    buildLimit: 200
