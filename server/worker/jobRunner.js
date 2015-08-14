@@ -43,6 +43,18 @@ function startBuild() {
         worker
           .runNightwatch(build.config || config.nightwatchConfig, build.buildNumber)
           .then(function (result) {
+            process.on('message', function (msg) {
+              if (msg.type === 'cancel') {
+                console.log(result.nightwatch);
+                result.nightwatch.send({
+                  type: 'cancel'
+                });
+              }
+            });
+            return result.finishedPromise;
+          })
+          .then(function (result) {
+            process._events.message.pop()
             currentlyWorking = false;
             process.send({type: 'buildCompleted', result: _.merge(result, {finished_at: new Date(), started_at: currentBuild.started_at})});
             queue.shift();

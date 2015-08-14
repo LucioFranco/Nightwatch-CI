@@ -4,7 +4,13 @@ process.on('err', function (data) {
   process.send(data);
 });
 
-process.send(process.argv[0]);
+console.log(Nightwatch);
+
+process.on('message', function (msg) {
+  if (msg.type === 'cancel') {
+    process.exit(0);
+  }
+});
 
 try {
   Nightwatch.cli(function (argv) {

@@ -6,8 +6,12 @@ SmartTimeAgo = require 'react-smart-time-ago'
 _ = require 'lodash'
 
 BuildActions = require '../../actions/BuildActions.coffee'
+QueueActions = require '../../actions/QueueActions.coffee'
 
 BuildPanel = React.createClass
+  cancelBuild: ->
+    QueueActions.cancel(@props.build.buildNumber)
+
   renderStats: ->
     if _.has @props.build, 'pass'
         <span className="pull-right text-right">
@@ -15,6 +19,10 @@ BuildPanel = React.createClass
           <p>Passed: {@props.build?.output?.passed} / {@props.build?.output?.assertions}</p>
           <Link to="build" params={buildNum: @props.build?.buildNumber}>Detailed build info</Link>
         </span>
+    else
+      <span className="pull-right text-right">
+        <a onClick={@cancelBuild}>Cancel</a>
+      </span>
 
   renderIcon: ->
     if _.has @props.build, 'inProgress'

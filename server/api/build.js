@@ -6,7 +6,8 @@ var auth    = require('../auth').jwt;
 var helper  = require('../helper');
 
 router
-  .get('/', function (req, res, next) {
+  .route('/')
+  .get(function (req, res, next) {
     Build
       .getAllBuilds(req.query['size'])
       .then(function (result) {
@@ -80,6 +81,11 @@ router
           helper.json(res)(result);
       })
       .catch(helper.err(next));
+  })
+  .delete(auth, function (req, res, next) {
+    req.jobRunner.cancel(req.params['buildNum']);
+    req.io.emit('queueStoreUpdate');
+    res.status(200).end();
   })
 
 module.exports = router;

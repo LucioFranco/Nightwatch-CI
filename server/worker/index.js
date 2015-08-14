@@ -16,17 +16,20 @@ var workers = {
         }
       );
 
-      nightwatch.on('message', function (message) {
-        if (typeof message === 'string')
-          winston.info('message from worker' + message);
-        else {
-          message.buildNumber = buildNumber;
-          resolve(message);
-        }
+      var finishedPromise = when.promise(function (resol, rejec) {
+        nightwatch.on('message', function (message) {
+          if (typeof message === 'string')
+            winston.info('message from worker' + message);
+          else {
+            message.buildNumber = buildNumber;
+            resolve(message);
+          }
+        });
+        nightwatch.on('err', function (err) {
+          reject(err);
+        });
       });
-      nightwatch.on('err', function (err) {
-        reject(err);
-      });
+      resolve({ nightwatch: nightwatch, finishedPromise: finishedPromise });
     });
   },
   startJobRunner: function (config, io, buildDone) {
@@ -70,9 +73,8 @@ var workers = {
         });
       },
       cancel: function (buildId) {
-        return when.promise(function (resolve, reject) {
-
-        });
+        console.log('cancel fired');
+        runner.send({ type: 'cancel', buildId: buildId });
       },
       getCurrentBuild: function () {
         return when.promise(function (resolve, reject) {
