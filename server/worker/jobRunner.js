@@ -40,6 +40,9 @@ function startBuild() {
       if (msg.type === 'donePreBuild') {
         //TODO clean up this mess
         process._events.message.pop()
+        var now = new Date();
+        queue[0].started_at = now;
+        currentBuild.started_at = now;
         worker
           .runNightwatch(build.config || config.nightwatchConfig, build.buildNumber)
           .then(function (result) {
