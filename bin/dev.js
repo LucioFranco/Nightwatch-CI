@@ -6,6 +6,7 @@ var config = {
   test: true,
   noCompile: true,
   createAdmin: true,
+  file_log: true,
   jobRunner: {
     repeat: false,
     nightwatchConfig: {

@@ -18,6 +18,19 @@ var winston = require('winston');
 module.exports = function (config) {
   var db = mongoose.connect(process.env.mongodb_uri || config.mongoUri);
   var jobRunner = worker.startJobRunner(config.jobRunner, io, Build.finished(io));
+  if (config.log_level) {
+    winston.level = config.log_level;
+  }
+
+  if (config.file_log) {
+    winston.add(winston.transports.File, {
+      tailable: true,
+      colorize: true,
+      filename: "nightwatch-ci.log",
+      prettyPrint: true,
+      json: false
+    });
+  }
 
   app.use(bodyParser.urlencoded({extended: false}));
   app.use(bodyParser.json());
@@ -27,8 +40,6 @@ module.exports = function (config) {
     req.jobRunner = jobRunner;
     req.config = config;
 
-    if (config.log_level)
-      winston.level = config.log_level;
     winston.info(req.method + ' ' + req.url);
     next();
   });
