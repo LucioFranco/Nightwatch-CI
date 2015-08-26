@@ -1,7 +1,8 @@
 var cp = require('child_process');
 var path = require('path');
 var when = require('when');
-var winston = require('winston');
+var winston = require('../logger');
+var _ = require('lodash');
 
 var workers = {
   runNightwatch: function (config, buildNumber) {
@@ -12,7 +13,8 @@ var workers = {
         __dirname + '/testRunner.js',
         config.args,
         {
-          cwd: config.testPath
+          cwd: config.testPath,
+          //silent: true
         }
       );
 
@@ -39,7 +41,18 @@ var workers = {
         }
       }
 
-    var runner = cp.fork(__dirname + '/jobRunner.js', [], {  });
+    var runner = cp.fork(__dirname + '/jobRunner.js', [], { silent: true });
+
+    var log = runner.stdout;
+    log.on('readable', function () {
+      var temp = log.read().toString();
+      _.each(temp.split("\n"), function (e) {
+        if (e !== '') {
+          winston.info(e);
+        }
+      });
+    });
+
     runner._maxListeners = 25;
     runner.on('message', function (msg) {
       if (msg.type === 'buildCompleted') {
